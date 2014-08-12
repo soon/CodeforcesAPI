@@ -33,3 +33,6 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 
 *.egg-info
+__pycache__
+build
+dist

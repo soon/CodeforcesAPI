@@ -5,7 +5,7 @@ For further information visit http://codeforces.com/api/help/objects#Contest
 """
 
 from enum import Enum
-from api import BaseJsonObject
+from . import BaseJsonObject
 
 
 class ContestType(Enum):

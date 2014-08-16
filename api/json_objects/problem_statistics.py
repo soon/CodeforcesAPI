@@ -7,9 +7,12 @@ For further information visit http://codeforces.com/api/help/objects#ProblemStat
 from . import BaseJsonObject
 
 
+__all__ = ['ProblemStatistics']
+
+
 class ProblemStatistics(BaseJsonObject):
     """
-    This class represents ProblemStatistics object
+    Represents a statistic data about a problem.
 
     For further information visit http://codeforces.com/api/help/objects#ProblemStatistics
     """
@@ -30,35 +33,59 @@ class ProblemStatistics(BaseJsonObject):
 
     @property
     def contest_id(self):
+        """
+        Id of the contest, containing the problem.
+
+        :return: Id or None if not initialized
+        :rtype: int
+        """
         return self._contest_id 
     
     @contest_id.setter
     def contest_id(self, value):
+        """
+        Id of the contest, containing the problem.
+
+        :param value: Id
+        :type value: int or str
+        """
         assert isinstance(value, (int, str))
-        
-        if isinstance(value, str):
-            value = int(value)
-            
-        self._contest_id = value
+        self._contest_id = int(value)
         
     @property
     def index(self):
+        """
+        Usually a letter or a letter, followed by a digit, that represent a problem index in a contest.
+
+        :return: Index or None if not initialized
+        :rtype: int
+        """
         return self._index
     
     @index.setter
     def index(self, value):
+        """
+        Usually a letter or a letter, followed by a digit, that represent a problem index in a contest.
+
+        :param value: Index
+        :type value: str
+        """
         assert isinstance(value, str)
         self._index = value
 
     @property
     def solved_count(self):
+        """
+        :return: Number of users, who solved the problem or None if not initialized
+        :rtype: int
+        """
         return self._solved_count
 
     @solved_count.setter
     def solved_count(self, value):
+        """
+        :param value: Number of users, who solved the problem.
+        :type value: int or str
+        """
         assert isinstance(value, (int, str))
-
-        if isinstance(value, str):
-            value = int(value)
-
-        self._solved_count = value
+        self._solved_count = int(value)

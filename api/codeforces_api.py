@@ -72,7 +72,7 @@ class CodeforcesAPI:
                  'problemStatistics': list of ProblemStatistics}
         """
         method = 'problemset.problems'
-        url = self.__make_request_url(method, tags=tags) if tags else self.__make_request_url(method)
+        url = self.__make_request_url(method, tags=tags)
         data = self.__get_data(url)
 
         return {'problems': list(map(Problem, data['problems'])),

@@ -8,7 +8,7 @@ from . import BaseJsonObject
 from enum import Enum
 
 
-__all__ = ['ProblemResults', 'ProblemType']
+__all__ = ['ProblemResult', 'ProblemType']
 
 
 class ProblemType(Enum):
@@ -21,7 +21,7 @@ class ProblemType(Enum):
     final = 'FINAL'
 
 
-class ProblemResults(BaseJsonObject):
+class ProblemResult(BaseJsonObject):
     """
     Represents a submissions results of a party for a problem.
 

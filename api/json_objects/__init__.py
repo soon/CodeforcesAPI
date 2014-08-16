@@ -9,4 +9,4 @@ from .submission import *
 from .rating_change import *
 from .judge_protocol import *
 from .hack import *
-from .problem_results import *
+from .problem_result import *

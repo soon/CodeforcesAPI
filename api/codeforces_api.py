@@ -93,6 +93,24 @@ class CodeforcesAPI:
 
         return list(map(User, data))
 
+    def user_rated_list(self, active_only=False):
+        """
+        Returns the list of all rated users.
+
+        :param active_only: If true then only users, who participated in rated contest during the last month are
+                            returned. Otherwise, all users with at least one rated contest are returned.
+        :type active_only: bool
+        :return: Returns a list of User objects, sorted in decreasing order of rating.
+        :rtype: list of User
+        """
+        assert isinstance(active_only, bool)
+
+        method = 'user.ratedList'
+        url = self.__make_request_url(method, activeOnly=active_only)
+        data = self.__get_data(url)
+
+        return list(map(User, data))
+
     def __get_data(self, url):
         """
         Returns data retrieved from given url

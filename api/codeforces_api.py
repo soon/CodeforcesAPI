@@ -59,7 +59,7 @@ class CodeforcesAPI:
                 'problems': list(map(Problem, data['problems'])),
                 'rows': data['rows']}
 
-    def problemset_problems(self, tags):
+    def problemset_problems(self, tags=None):
         """
         Returns all problems from problemset. Problems can be filtered by tags.
 

@@ -4,3 +4,4 @@ from .problem_statistics import *
 from .contest import *
 from .user import *
 from .member import *
+from .party import *

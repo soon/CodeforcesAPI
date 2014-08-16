@@ -70,7 +70,7 @@ class CodeforcesAPI:
         key, value = key_value
 
         if isinstance(value, list):
-            value = ','.join(value)
+            value = ';'.join(value)
         else:
             value = str(value)
 

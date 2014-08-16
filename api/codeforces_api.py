@@ -5,9 +5,11 @@ This file provides api for retrieving data from codeforces.com
 import json
 from urllib import request
 
-from api import Problem, User
+from api import Problem
+from api import User
 from api import ProblemStatistics
-from api.json_objects.contest import Contest
+from api import Contest
+from api import Submission
 
 
 class CodeforcesAPI:
@@ -111,6 +113,29 @@ class CodeforcesAPI:
 
         return list(map(User, data))
 
+    def user_status(self, handle, from_=1, count=None):
+        """
+        Returns submissions of specified user.
+
+        :param handle: Codeforces user handle.
+        :type handle: str
+        :param from_: 1-based index of the first submission to return
+        :type from_: int
+        :param count: Number of returned submissions.
+        :type count: int or None
+        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
+        :rtype: list of Submission
+        """
+        assert isinstance(handle, str)
+        assert isinstance(from_, int)
+        assert isinstance(count, int) or count is None
+
+        method = 'user.status'
+        url = self.__make_request_url(method, handle=handle, count=count, **{'from': from_})
+        data = self.__get_data(url)
+
+        return list(map(Submission, data))
+
     def __get_data(self, url):
         """
         Returns data retrieved from given url
@@ -134,6 +159,13 @@ class CodeforcesAPI:
             raise ValueError('Missed required field', e.args[0])
 
     @staticmethod
+    def __get_args(**kwargs):
+        """
+        Filters only not None values
+        """
+        return {k: v for k, v in kwargs.items() if v is not None}
+
+    @staticmethod
     def __make_request_url(method, **kwargs):
         """
         Makes request url in the form
@@ -148,7 +180,8 @@ class CodeforcesAPI:
         url = base + method
 
         if kwargs:
-            url += '?' + '&'.join(map(CodeforcesAPI.__key_value_to_http_parameter, kwargs.items()))
+            args = CodeforcesAPI.__get_args(**kwargs)
+            url += '?' + '&'.join(map(CodeforcesAPI.__key_value_to_http_parameter, args.items()))
 
         return url
 

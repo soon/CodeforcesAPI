@@ -171,7 +171,7 @@ class CodeforcesAPI:
         """
         assert isinstance(contest_id, int)
 
-        data = self._data_retriever.get_data('contest.hacks', contest_id=contest_id)
+        data = self._data_retriever.get_data('contest.hacks', contestId=contest_id)
 
         return list(map(Hack, data))
 

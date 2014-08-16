@@ -84,6 +84,39 @@ class CodeforcesAPI:
                 'problems': list(map(Problem, data['problems'])),
                 'rows': data['rows']}
 
+    def contest_status(self, contest_id, handle=None, from_=1, count=None):
+        """
+        Returns submissions for specified contest.
+
+        Optionally can return submissions of specified user.
+
+        :param contest_id: Id of the contest.
+                           It is not the round number. It can be seen in contest URL. For example: /contest/374/status
+        :type contest_id: int
+
+        :param handle: Codeforces user handle.
+        :type handle: str
+
+        :param from_: 1-based index of the first submission to return.
+        :type from_: int
+
+        :param count: Number of returned submissions.
+        :type count: int
+
+        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
+        :rtype: list of Submission
+        """
+        assert isinstance(contest_id, int)
+        assert isinstance(handle, str) or handle is None
+        assert isinstance(from_, int)
+        assert isinstance(count, int) or count is None
+
+        method = 'contest.status'
+        url = self.__make_request_url(method, contestId=contest_id, handle=handle, count=count, **{'from': from_})
+        data = self.__get_data(url)
+
+        return list(map(Submission, data))
+
     def problemset_problems(self, tags=None):
         """
         Returns all problems from problemset. Problems can be filtered by tags.

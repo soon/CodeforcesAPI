@@ -6,8 +6,11 @@ In this example we are loading only Div2.C problems, sorted by solved count
 
 from collections import defaultdict
 from itertools import groupby
+import os
+import sys
 
 from api import CodeforcesAPI
+from api import VerdictType
 from api import Problem
 from api import Contest
 
@@ -46,8 +49,20 @@ def filter_c(iterable):
     return filter(lambda problem: 'C' in problem.index, iterable)
 
 
-def main():
+def filter_accepted(iterable):
+    return filter(lambda submission: submission.verdict is not None and submission.verdict == VerdictType.ok, iterable)
+
+
+def main(argv):
+    assert len(argv) == 2
+
     api = CodeforcesAPI()
+
+    print('Loading your submissions')
+    handle = argv[1]
+    submissions = filter_accepted(api.user_status(handle))
+    solved_problems = {submission.problem for submission in submissions}
+    print('Loaded {} solved problems'.format(len(solved_problems)))
 
     print('Loading contests...')
     contests = group_by_contest_id(filter_div2(api.contest_list()))
@@ -60,17 +75,25 @@ def main():
     stats = problemset['problemStatistics']
     stats = filter_c(stats)
     stats = filter(lambda s: s.contest_id in contests, stats)
-    stats = sorted(stats, key=lambda s: s.solved_count)
+    stats = sorted(stats, key=lambda s: s.solved_count, reverse=True)
 
     problems = group_by_contest_id(filter_c(problemset['problems']))
 
     print()
-    print('{:30}{:15}{}'.format('Name', 'Solved count', 'Url'))
+    print('{:30}{:10}{:15}{}'.format('Name', 'Is solved', 'Solved count', 'Url'))
 
     for stat in stats[:10]:
         problem = problems[stat.contest_id][0]
-        print('{:30}{:<15}{}'.format(problem.name, stat.solved_count, make_url(problem)))
+        print('{:30}{!s:10}{:<15}{}'.format(problem.name,
+                                            problem in solved_problems,
+                                            stat.solved_count,
+                                            make_url(problem)))
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 2:
+        main(sys.argv)
+    else:
+        print('Invalid number of arguments')
+        print('Usage: python3 {} [user handle]'.format(os.path.basename(sys.argv[0])))
+        sys.exit(1)

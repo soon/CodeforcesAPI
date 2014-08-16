@@ -13,7 +13,7 @@ from . import JudgeProtocol
 from enum import Enum
 
 
-__all__ = ['Hack']
+__all__ = ['Hack', 'HackVerdictType']
 
 
 class HackVerdictType(Enum):

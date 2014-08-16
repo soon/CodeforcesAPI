@@ -14,12 +14,12 @@ class ProblemStatistics(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#ProblemStatistics
     """
 
-    def __init__(self, s=None):
+    def __init__(self, data=None):
         self._contest_id = None
         self._index = None
         self._solved_count = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

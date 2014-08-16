@@ -29,7 +29,7 @@ class Contest(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Contest
     """
 
-    def __init__(self, s=None):
+    def __init__(self, data=None):
         self._id = None
         self._name = None
         self._type = None
@@ -48,7 +48,7 @@ class Contest(BaseJsonObject):
         self._city = None
         self._season = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

@@ -17,7 +17,7 @@ class User(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#User
     """
 
-    def __init__(self, s=None):
+    def __init__(self, data=None):
         self._handle = None
         self._email = None
         self._vk_id = None
@@ -35,7 +35,7 @@ class User(BaseJsonObject):
         self._last_online_time = None
         self._registration_time = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

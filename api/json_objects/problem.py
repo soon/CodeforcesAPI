@@ -20,7 +20,7 @@ class Problem(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Problem
     """
 
-    def __init__(self, s=None):
+    def __init__(self, data=None):
         self._contest_id = None
         self._index = None
         self._name = None
@@ -28,7 +28,7 @@ class Problem(BaseJsonObject):
         self._points = None
         self._tags = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

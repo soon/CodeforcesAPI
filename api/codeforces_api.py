@@ -2,10 +2,15 @@
 This file provides api for retrieving data from codeforces.com
 """
 
-from enum import Enum
-
+import hashlib
 import json
+import random
+import time
+import operator
+
 from urllib import request
+from collections import OrderedDict
+from enum import Enum
 
 from api import Problem
 from api import RanklistRow
@@ -29,15 +34,23 @@ class CodeforcesDataRetriever:
     """
     This class hides low-level operations with retrieving data from Codeforces site
     """
-    def __init__(self, lang=CodeforcesLanguage.en):
+    def __init__(self, lang=CodeforcesLanguage.en, key=None, secret=None):
         """
-
         :param lang: Language
         :type lang: CodeforcesLanguage
-        :return:
+
+        :param key: Private API key. Ignored if secret is None
+        :type key: str
+
+        :param secret: Private API secret. Ignored if key is None
+        :type secret: str
         """
-        assert isinstance(lang, CodeforcesLanguage), \
-            'lang should be of type CodeforcesLanguage, not {}'.format(type(lang))
+        self._key = None
+        self._secret = None
+
+        if key is not None and secret is not None:
+            self.key = key
+            self.secret = secret
 
         self._base_from_language = {
             CodeforcesLanguage.en: 'http://codeforces.com/api/',
@@ -76,11 +89,43 @@ class CodeforcesDataRetriever:
         """
         url = self.base + method
 
+        if self.key is not None and self.secret is not None:
+            kwargs['apiKey'] = self.key
+            kwargs['time'] = int(time.time())
+
         if kwargs:
             args = self.__get_valid_args(**kwargs)
             url += '?' + '&'.join(map(self.__key_value_to_http_parameter, args.items()))
 
+            if self.key is not None and self.secret is not None:
+                url += '&apiSig=' + self.__generate_api_sig(method, args)
+
         return url
+
+    def __generate_api_sig(self, method, params):
+        """
+        apiSig — signature to ensure that you know both key and secret.
+
+        First six characters of the apiSig parameter can be arbitrary.
+        We recommend to choose them at random for each request. Let's denote them as rand.
+        The rest of the parameter is hexadecimal representation of SHA-512 hash-code of the following string:
+            <rand>/<methodName>?param1=value1&param2=value2...&paramN=valueN#<secret>
+        where (param_1, value_1), (param_2, value_2),..., (param_n, value_n) are all the
+        request parameters (including apiKey, time, but excluding apiSig) with corresponding values,
+        sorted lexicographically first by param_i, then by value_i.
+        :return:
+        """
+        rand = str(random.randint(100000, 999999))
+
+        s = '{}/{}?'.format(rand, method)
+
+        ordered_params = OrderedDict(sorted(params.items(), key=operator.itemgetter(0)))
+
+        s += '&'.join(map(self.__key_value_to_http_parameter, ordered_params.items()))
+
+        s += '#' + self.secret
+
+        return rand + hashlib.sha512(s.encode()).hexdigest()
 
     @staticmethod
     def __get_valid_args(**kwargs):
@@ -97,7 +142,7 @@ class CodeforcesDataRetriever:
         key, value = key_value
 
         if isinstance(value, list):
-            value = ';'.join(value)
+            value = ';'.join(sorted(map(str, value)))
         else:
             value = str(value)
 
@@ -143,18 +188,66 @@ class CodeforcesDataRetriever:
         assert isinstance(value, (CodeforcesLanguage, str))
         self._language = CodeforcesLanguage(value)
 
+    @property
+    def key(self):
+        """
+        The private api key
+
+        :returns: Key or None if not presented
+        :rtype: str
+        """
+        return self._key
+
+    @key.setter
+    def key(self, value):
+        """
+        The private api key
+
+        :param value: Key or None
+        :type value: str
+        """
+        assert isinstance(value, str) or value is None
+        self._key = value
+
+    @property
+    def secret(self):
+        """
+        The secret part of api key
+
+        :returns: Secret or None if not presented
+        :rtype: str
+        """
+        return self._secret
+
+    @secret.setter
+    def secret(self, value):
+        """
+        The secret part of api key
+
+        :param value: Secret or None
+        :type value: str
+        """
+        assert isinstance(value, str) or value is None
+        self._secret = value
+
 
 class CodeforcesAPI:
     """
     This class provides api for retrieving data from codeforces.com
     """
 
-    def __init__(self, lang='en'):
+    def __init__(self, lang='en', key=None, secret=None):
         """
         :param lang: Language
         :type lang: str or CodeforcesLanguage
+
+        :param key: Private API key. Ignored if secret is None
+        :type key: str
+
+        :param secret: Private API secret. Ignored if key is None
+        :type secret: str
         """
-        self._data_retriever = CodeforcesDataRetriever(CodeforcesLanguage(lang))
+        self._data_retriever = CodeforcesDataRetriever(CodeforcesLanguage(lang), key, secret)
 
     def contest_hacks(self, contest_id):
         """
@@ -171,7 +264,7 @@ class CodeforcesAPI:
         """
         assert isinstance(contest_id, int)
 
-        data = self._data_retriever.get_data('contest.hacks', contest_id=contest_id)
+        data = self._data_retriever.get_data('contest.hacks', contestId=contest_id)
 
         return list(map(Hack, data))
 

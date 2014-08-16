@@ -7,3 +7,4 @@ from .member import *
 from .party import *
 from .submission import *
 from .rating_change import *
+from .judge_protocol import *

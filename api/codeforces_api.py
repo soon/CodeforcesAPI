@@ -59,18 +59,18 @@ class CodeforcesAPI:
                 'problems': list(map(Problem, data['problems'])),
                 'rows': data['rows']}
 
-    def problemset_problems(self, *args):
+    def problemset_problems(self, tags):
         """
         Returns all problems from problemset. Problems can be filtered by tags.
 
-        :param args: List of args.
-        :type args: list of str
+        :param tags: List of tags.
+        :type tags: list of str
         :return: Returns two lists. List of Problem objects and list of ProblemStatistics objects.
         :rtype: {'problems': list of Problem,
                  'problemStatistics': list of ProblemStatistics}
         """
         method = 'problemset.problems'
-        url = self.__make_request_url(method, tags=args) if args else self.__make_request_url(method)
+        url = self.__make_request_url(method, tags=tags) if tags else self.__make_request_url(method)
         data = self.__get_data(url)
 
         return {'problems': list(map(Problem, data['problems'])),

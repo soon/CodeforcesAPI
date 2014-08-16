@@ -134,6 +134,25 @@ class CodeforcesAPI:
         return {'problems': list(map(Problem, data['problems'])),
                 'problemStatistics': list(map(ProblemStatistics, data['problemStatistics']))}
 
+    def problemset_recent_status(self, count):
+        """
+        Returns recent submissions.
+
+        :param count: Number of submissions to return. Can be up to 1000.
+        :type count: int
+
+        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
+        :rtype: list of Submission
+        """
+        assert isinstance(count, int)
+        assert 0 < count <= 1000
+
+        method = 'problemset.recentStatus'
+        url = self.__make_request_url(method, count=count)
+        data = self.__get_data(url)
+
+        return list(map(Submission, data))
+
     def user_info(self, handles):
         """
         Returns information about one or several users.

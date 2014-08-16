@@ -252,7 +252,7 @@ class Submission(BaseJsonObject):
         if isinstance(value, str):
             value = VerdictType(value)
 
-        self._verdict = VerdictType(value)
+        self._verdict = value
 
     @property
     def testset(self):

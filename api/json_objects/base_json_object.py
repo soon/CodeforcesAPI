@@ -35,5 +35,36 @@ class BaseJsonObject:
 
         :param values: Dictionary with values
         :type values: dict
+        :exception ValueError: raised when given dictionary does not contain required field
         """
-        pass
+        try:
+            self.load_required_fields_from_dict(values)
+        except KeyError as e:
+            raise ValueError('Missed required field', e.args[0])
+
+        self.load_optional_fields_from_dict(values)
+
+    def load_required_fields_from_dict(self, values):
+        """
+        Loads required fields from given dictionary.
+
+        This method SHOULD NOT care if value was not given
+
+        Note: given dictionary may contain extra fields. just ignore them
+
+        :param values: Dictionary with values
+        :type values: dict
+        """
+        assert isinstance(values, dict)
+
+    def load_optional_fields_from_dict(self, values):
+        """
+        Loads optional fields from given dictionary.
+
+        Note: given dictionary may not contain needed value. It is recommended to use dict.get method
+        The given dictionary may also contain extra fields. Just ignore them
+
+        :param values: Dictionary with optional values
+        :type values: dict
+        """
+        assert isinstance(values, dict)

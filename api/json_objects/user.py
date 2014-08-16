@@ -37,18 +37,20 @@ class User(BaseJsonObject):
 
         super().__init__(s)
 
-    def load_from_dict(self, values):
-        try:
-            self.handle = values['handle']
-            self.contribution = values['contribution']
-            self.rank = values['rank']
-            self.rating = values['rating']
-            self.max_rank = values['maxRank']
-            self.max_rating = values['maxRating']
-            self.last_online_time = values['lastOnlineTimeSeconds']
-            self.registration_time = values['registrationTimeSeconds']
-        except KeyError as e:
-            raise ValueError('Missed required field', e.args[0])
+    def load_required_fields_from_dict(self, values):
+        super().load_required_fields_from_dict(values)
+
+        self.handle = values['handle']
+        self.contribution = values['contribution']
+        self.rank = values['rank']
+        self.rating = values['rating']
+        self.max_rank = values['maxRank']
+        self.max_rating = values['maxRating']
+        self.last_online_time = values['lastOnlineTimeSeconds']
+        self.registration_time = values['registrationTimeSeconds']
+
+    def load_optional_fields_from_dict(self, values):
+        super().load_optional_fields_from_dict(values)
 
         self.email = values.get('email')
         self.vk_id = values.get('vkId')

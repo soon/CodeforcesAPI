@@ -50,16 +50,18 @@ class Contest(BaseJsonObject):
 
         super().__init__(s)
 
-    def load_from_dict(self, values):
-        try:
-            self.id = values['id']
-            self.name = values['name']
-            self.type = values['type']
-            self.phase = values['phase']
-            self.frozen = values['frozen']
-            self.duration = values['durationSeconds']
-        except KeyError as e:
-            raise ValueError('Missed required field', e.args[0])
+    def load_required_fields_from_dict(self, values):
+        super().load_required_fields_from_dict(values)
+
+        self.id = values['id']
+        self.name = values['name']
+        self.type = values['type']
+        self.phase = values['phase']
+        self.frozen = values['frozen']
+        self.duration = values['durationSeconds']
+
+    def load_optional_fields_from_dict(self, values):
+        super().load_optional_fields_from_dict(values)
 
         self.start_time = values.get('startTimeSeconds')
         self.relative_time = values.get('relativeTimeSeconds')

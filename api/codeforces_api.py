@@ -4,7 +4,7 @@
 import json
 from urllib import request
 
-from api import Problem
+from api import Problem, User
 from api import ProblemStatistics
 from api.json_objects.contest import Contest
 
@@ -38,6 +38,15 @@ class CodeforcesAPI:
         return {'problems': list(map(Problem, data['problems'])),
                 'problemStatistics': list(map(ProblemStatistics, data['problemStatistics']))}
 
+    def user_info(self, handles):
+        assert isinstance(handles, list)
+
+        method = 'user.info'
+        url = self.__make_request_url(method, handles=handles)
+        data = self.__get_data(url)
+
+        return list(map(User, data))
+
     def __get_data(self, url):
         with request.urlopen(url) as req:
             return self.__check_json(req.readall().decode('utf-8'))
@@ -70,7 +79,7 @@ class CodeforcesAPI:
         key, value = key_value
 
         if isinstance(value, list):
-            value = ','.join(value)
+            value = ';'.join(value)
         else:
             value = str(value)
 

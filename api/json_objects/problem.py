@@ -30,15 +30,17 @@ class Problem(BaseJsonObject):
 
         super().__init__(s)
 
-    def load_from_dict(self, values):
-        try:
-            self.contest_id = values['contestId']
-            self.index = values['index']
-            self.name = values['name']
-            self.type = values['type']
-            self.tags = values['tags']
-        except KeyError as e:
-            raise ValueError('Missed required field', e.args[0])
+    def load_required_fields_from_dict(self, values):
+        super().load_required_fields_from_dict(values)
+
+        self.contest_id = values['contestId']
+        self.index = values['index']
+        self.name = values['name']
+        self.type = values['type']
+        self.tags = values['tags']
+
+    def load_optional_fields_from_dict(self, values):
+        super().load_optional_fields_from_dict(values)
 
         self.points = values.get('points')
 

@@ -6,6 +6,7 @@ import json
 from urllib import request
 
 from api import Problem
+from api import RatingChange
 from api import Hack
 from api import User
 from api import ProblemStatistics
@@ -187,6 +188,24 @@ class CodeforcesAPI:
         data = self.__get_data(url)
 
         return list(map(User, data))
+
+    def user_rating(self, handle):
+        """
+        Returns rating history of the specified user.
+
+        :param handle: Codeforces user handle.
+        :type handle: str
+
+        :return: Returns a list of RatingChange objects for requested user.
+        :rtype: list of RatingChange
+        """
+        assert isinstance(handle, str), 'Handle should have str type, not {}'.format(type(handle))
+
+        method = 'user.rating'
+        url = self.__make_request_url(method, handle=handle)
+        data = self.__get_data(url)
+
+        return list(map(RatingChange, data))
 
     def user_status(self, handle, from_=1, count=None):
         """

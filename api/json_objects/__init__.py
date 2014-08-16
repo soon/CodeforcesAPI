@@ -6,3 +6,8 @@ from .user import *
 from .member import *
 from .party import *
 from .submission import *
+from .rating_change import *
+from .judge_protocol import *
+from .hack import *
+from .problem_result import *
+from .ranklist_row import *

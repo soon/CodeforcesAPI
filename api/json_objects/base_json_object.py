@@ -3,12 +3,17 @@ This module contains class for representing base json object
 """
 
 import json
+import copy
+
+
+__all__ = ['BaseJsonObject']
 
 
 class BaseJsonObject:
     """
     Every Codeforces Json object should extend this class
     """
+
     def __init__(self, s):
         assert isinstance(s, (str, dict)) or s is None
 
@@ -17,6 +22,15 @@ class BaseJsonObject:
                 self.load_from_json(s)
             else:
                 self.load_from_dict(s)
+
+    def __eq__(self, other):
+        if type(self) == type(other):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __hash__(self):
+        return make_hash(self.__dict__)
 
     def load_from_json(self, s):
         """
@@ -68,3 +82,23 @@ class BaseJsonObject:
         :type values: dict
         """
         assert isinstance(values, dict)
+
+
+# http://stackoverflow.com/a/8714242/1532460
+def make_hash(o):
+    """
+    Makes a hash from a dictionary, list, tuple or set to any level, that contains
+    only other hashable types (including any lists, tuples, sets, and
+    dictionaries).
+    """
+
+    if isinstance(o, (set, tuple, list)):
+        return tuple([make_hash(e) for e in o])
+    elif not isinstance(o, dict):
+        return hash(o)
+
+    new_o = copy.deepcopy(o)
+    for k, v in new_o.items():
+        new_o[k] = make_hash(v)
+
+    return hash(tuple(frozenset(sorted(new_o.items()))))

@@ -8,6 +8,9 @@ from enum import Enum
 from . import BaseJsonObject
 
 
+__all__ = ['Contest', 'ContestType', 'ContestPhase']
+
+
 class ContestType(Enum):
     cf = 'CF'
     ioi = 'IOI'

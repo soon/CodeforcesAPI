@@ -2,10 +2,13 @@
 This file provides api for retrieving data from codeforces.com
 """
 
+from enum import Enum
+
 import json
 from urllib import request
 
 from api import Problem
+from api import RanklistRow
 from api import RatingChange
 from api import Hack
 from api import User
@@ -14,10 +17,144 @@ from api import Contest
 from api import Submission
 
 
+__all__ = ['CodeforcesAPI', 'CodeforcesLanguage']
+
+
+class CodeforcesLanguage(Enum):
+    en = 'en'
+    ru = 'ru'
+
+
+class CodeforcesDataRetriever:
+    """
+    This class hides low-level operations with retrieving data from Codeforces site
+    """
+    def __init__(self, lang=CodeforcesLanguage.en):
+        """
+
+        :param lang: Language
+        :type lang: CodeforcesLanguage
+        :return:
+        """
+        assert isinstance(lang, CodeforcesLanguage), \
+            'lang should be of type CodeforcesLanguage, not {}'.format(type(lang))
+
+        self._base_from_language = {
+            CodeforcesLanguage.en: 'http://codeforces.com/api/',
+            CodeforcesLanguage.ru: 'http://codeforces.ru/api/'
+        }
+
+        self._language = lang
+
+    def get_data(self, method, **kwargs):
+        """
+        Retrieves data by given method with given parameters
+
+        :param method: Request method
+        :param kwargs: HTTP parameters
+        :return:
+        """
+        return self.__get_data(self.__generate_url(method, **kwargs))
+
+    def __get_data(self, url):
+        """
+        Returns data retrieved from given url
+        """
+        with request.urlopen(url) as req:
+            return self.__check_json(req.readall().decode('utf-8'))
+
+    def __generate_url(self, method, **kwargs):
+        """
+        Generates request url with given method and named parameters
+
+        :param method: Name of the method
+        :type method: str
+        :param kwargs: HTTP parameters
+        :type kwargs: dict of [str, object]
+        :return: Url
+        :rtype: str
+        """
+        url = self.base + method
+
+        if kwargs:
+            args = self.__get_valid_args(**kwargs)
+            url += '?' + '&'.join(map(self.__key_value_to_http_parameter, args.items()))
+
+        return url
+
+    @staticmethod
+    def __get_valid_args(**kwargs):
+        """
+        Filters only not None values
+        """
+        return {k: v for k, v in kwargs.items() if v is not None}
+
+    @staticmethod
+    def __key_value_to_http_parameter(key_value):
+        """
+        Transforms dictionary of values to http parameters
+        """
+        key, value = key_value
+
+        if isinstance(value, list):
+            value = ';'.join(value)
+        else:
+            value = str(value)
+
+        return '{0}={1}'.format(key, value)
+
+    @staticmethod
+    def __check_json(answer):
+        """
+        Check if answer is correct according to http://codeforces.com/api/help
+        """
+        values = json.loads(answer)
+
+        try:
+            if values['status'] == 'OK':
+                return values['result']
+            else:
+                raise ValueError(values['comment'])
+        except KeyError as e:
+            raise ValueError('Missed required field', e.args[0])
+
+    @property
+    def base(self):
+        """
+        :return: Base of url according to language
+        :rtype: str
+        """
+        return self._base_from_language[self.language]
+
+    @property
+    def language(self):
+        """
+        :returns: Language. By default is en
+        :rtype: CodeforcesLanguage
+        """
+        return self._language
+
+    @language.setter
+    def language(self, value):
+        """
+        :param value: Language
+        :type value: CodeforcesLanguage or str
+        """
+        assert isinstance(value, (CodeforcesLanguage, str))
+        self._language = CodeforcesLanguage(value)
+
+
 class CodeforcesAPI:
     """
     This class provides api for retrieving data from codeforces.com
     """
+
+    def __init__(self, lang='en'):
+        """
+        :param lang: Language
+        :type lang: str or CodeforcesLanguage
+        """
+        self._data_retriever = CodeforcesDataRetriever(CodeforcesLanguage(lang))
 
     def contest_hacks(self, contest_id):
         """
@@ -34,9 +171,7 @@ class CodeforcesAPI:
         """
         assert isinstance(contest_id, int)
 
-        method = 'contest.hacks'
-        url = self.__make_request_url(method, contestId=contest_id)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('contest.hacks', contest_id=contest_id)
 
         return list(map(Hack, data))
 
@@ -51,20 +186,27 @@ class CodeforcesAPI:
                  including mashups and private gyms.
         :rtype: list of Contest
         """
-        method = 'contest.list'
-        url = self.__make_request_url(method, gym=gym)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('contest.list', gym=gym)
 
         return list(map(Contest, data))
 
-    def contest_standings(self, contest_id, **kwargs):
+    def contest_standings(self, contest_id, from_=1, count=None, handles=None):
         """
         Returns the description of the contest and the requested part of the standings.
 
         :param contest_id: Id of the contest. It is not the round number. It can be seen in contest URL.
                            For example: /contest/374/status
         :type contest_id: int
-        :param kwargs:
+
+        :param from_: 1-based index of the standings row to start the ranklist.
+        :type from_: int
+
+        :param count: Number of standing rows to return.
+        :type count: int
+
+        :param handles: List of handles. No more than 10000 handles is accepted.
+        :type handles: list of str
+
         :return: Returns object with three fields: "contest", "problems" and "rows".
                  Field "contest" contains a Contest object.
                  Field "problems" contains a list of Problem objects.
@@ -73,17 +215,22 @@ class CodeforcesAPI:
                  'problems': list of Problem,
                  'rows': list of RanklistRow}
         """
+        assert isinstance(contest_id, int), 'contest_id should be of type int, not {}'.format(type(contest_id))
+        assert isinstance(from_, int), 'from_ should be of type int, not {}'.format(type(from_))
+        assert isinstance(count, int) or count is None, 'count should be of type int, not {}'.format(type(count))
+        assert isinstance(handles, list) or handles is None, \
+            'handles should be of type list of str, not {}'.format(type(handles))
+        assert len(handles) <= 10000, 'No more than 10000 handles is accepted'
 
-        # TODO
-        # Split kwargs into optional parameters
-
-        method = 'contest.standings'
-        url = self.__make_request_url(method, contestId=contest_id, **kwargs)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('contest.standings',
+                                             contestId=contest_id,
+                                             count=count,
+                                             handles=handles,
+                                             **{'from': from_})
 
         return {'contest': list(map(Contest, data['contest'])),
                 'problems': list(map(Problem, data['problems'])),
-                'rows': data['rows']}
+                'rows': list(map(RanklistRow, data['rows']))}
 
     def contest_status(self, contest_id, handle=None, from_=1, count=None):
         """
@@ -112,9 +259,11 @@ class CodeforcesAPI:
         assert isinstance(from_, int)
         assert isinstance(count, int) or count is None
 
-        method = 'contest.status'
-        url = self.__make_request_url(method, contestId=contest_id, handle=handle, count=count, **{'from': from_})
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('contest.status',
+                                             contestId=contest_id,
+                                             handle=handle,
+                                             count=count,
+                                             **{'from': from_})
 
         return list(map(Submission, data))
 
@@ -128,9 +277,7 @@ class CodeforcesAPI:
         :rtype: {'problems': list of Problem,
                  'problemStatistics': list of ProblemStatistics}
         """
-        method = 'problemset.problems'
-        url = self.__make_request_url(method, tags=tags)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('problemset.problems', tags=tags)
 
         return {'problems': list(map(Problem, data['problems'])),
                 'problemStatistics': list(map(ProblemStatistics, data['problemStatistics']))}
@@ -148,9 +295,7 @@ class CodeforcesAPI:
         assert isinstance(count, int)
         assert 0 < count <= 1000
 
-        method = 'problemset.recentStatus'
-        url = self.__make_request_url(method, count=count)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('problemset.recentStatus', count=count)
 
         return list(map(Submission, data))
 
@@ -165,9 +310,7 @@ class CodeforcesAPI:
         """
         assert isinstance(handles, list)
 
-        method = 'user.info'
-        url = self.__make_request_url(method, handles=handles)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('user.info', handles=handles)
 
         return list(map(User, data))
 
@@ -183,9 +326,7 @@ class CodeforcesAPI:
         """
         assert isinstance(active_only, bool)
 
-        method = 'user.ratedList'
-        url = self.__make_request_url(method, activeOnly=active_only)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('user.ratedList', activeOnly=active_only)
 
         return list(map(User, data))
 
@@ -201,9 +342,7 @@ class CodeforcesAPI:
         """
         assert isinstance(handle, str), 'Handle should have str type, not {}'.format(type(handle))
 
-        method = 'user.rating'
-        url = self.__make_request_url(method, handle=handle)
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('user.rating', handle=handle)
 
         return list(map(RatingChange, data))
 
@@ -224,71 +363,6 @@ class CodeforcesAPI:
         assert isinstance(from_, int)
         assert isinstance(count, int) or count is None
 
-        method = 'user.status'
-        url = self.__make_request_url(method, handle=handle, count=count, **{'from': from_})
-        data = self.__get_data(url)
+        data = self._data_retriever.get_data('user.status', handle=handle, count=count, **{'from': from_})
 
         return list(map(Submission, data))
-
-    def __get_data(self, url):
-        """
-        Returns data retrieved from given url
-        """
-        with request.urlopen(url) as req:
-            return self.__check_json(req.readall().decode('utf-8'))
-
-    @staticmethod
-    def __check_json(answer):
-        """
-        Check if answer is correct according to http://codeforces.com/api/help
-        """
-        values = json.loads(answer)
-
-        try:
-            if values['status'] == 'OK':
-                return values['result']
-            else:
-                raise ValueError(values['comment'])
-        except KeyError as e:
-            raise ValueError('Missed required field', e.args[0])
-
-    @staticmethod
-    def __get_args(**kwargs):
-        """
-        Filters only not None values
-        """
-        return {k: v for k, v in kwargs.items() if v is not None}
-
-    @staticmethod
-    def __make_request_url(method, **kwargs):
-        """
-        Makes request url in the form
-        http://codeforces.com/api/@method?@kwargs
-
-        :param method: Name of the method
-        :param kwargs: HTTP parameters
-        :return: Url
-        """
-        base = 'http://codeforces.com/api/'
-
-        url = base + method
-
-        if kwargs:
-            args = CodeforcesAPI.__get_args(**kwargs)
-            url += '?' + '&'.join(map(CodeforcesAPI.__key_value_to_http_parameter, args.items()))
-
-        return url
-
-    @staticmethod
-    def __key_value_to_http_parameter(key_value):
-        """
-        Transforms dictionary of values to http parameters
-        """
-        key, value = key_value
-
-        if isinstance(value, list):
-            value = ';'.join(value)
-        else:
-            value = str(value)
-
-        return '{0}={1}'.format(key, value)

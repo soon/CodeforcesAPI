@@ -6,6 +6,7 @@ import json
 from urllib import request
 
 from api import Problem
+from api import RanklistRow
 from api import RatingChange
 from api import Hack
 from api import User
@@ -57,14 +58,23 @@ class CodeforcesAPI:
 
         return list(map(Contest, data))
 
-    def contest_standings(self, contest_id, **kwargs):
+    def contest_standings(self, contest_id, from_=1, count=None, handles=None):
         """
         Returns the description of the contest and the requested part of the standings.
 
         :param contest_id: Id of the contest. It is not the round number. It can be seen in contest URL.
                            For example: /contest/374/status
         :type contest_id: int
-        :param kwargs:
+
+        :param from_: 1-based index of the standings row to start the ranklist.
+        :type from_: int
+
+        :param count: Number of standing rows to return.
+        :type count: int
+
+        :param handles: List of handles. No more than 10000 handles is accepted.
+        :type handles: list of str
+
         :return: Returns object with three fields: "contest", "problems" and "rows".
                  Field "contest" contains a Contest object.
                  Field "problems" contains a list of Problem objects.
@@ -73,17 +83,20 @@ class CodeforcesAPI:
                  'problems': list of Problem,
                  'rows': list of RanklistRow}
         """
-
-        # TODO
-        # Split kwargs into optional parameters
+        assert isinstance(contest_id, int), 'contest_id should be of type int, not {}'.format(type(contest_id))
+        assert isinstance(from_, int), 'from_ should be of type int, not {}'.format(type(from_))
+        assert isinstance(count, int) or count is None, 'count should be of type int, not {}'.format(type(count))
+        assert isinstance(handles, list) or handles is None, \
+            'handles should be of type list of str, not {}'.format(type(handles))
+        assert len(handles) <= 10000, 'No more than 10000 handles is accepted'
 
         method = 'contest.standings'
-        url = self.__make_request_url(method, contestId=contest_id, **kwargs)
+        url = self.__make_request_url(method, contestId=contest_id, count=count, handles=handles, **{'from': from_})
         data = self.__get_data(url)
 
         return {'contest': list(map(Contest, data['contest'])),
                 'problems': list(map(Problem, data['problems'])),
-                'rows': data['rows']}
+                'rows': list(map(RanklistRow, data['rows']))}
 
     def contest_status(self, contest_id, handle=None, from_=1, count=None):
         """

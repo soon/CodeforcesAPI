@@ -6,6 +6,7 @@ import json
 from urllib import request
 
 from api import Problem
+from api import Hack
 from api import User
 from api import ProblemStatistics
 from api import Contest
@@ -16,6 +17,28 @@ class CodeforcesAPI:
     """
     This class provides api for retrieving data from codeforces.com
     """
+
+    def contest_hacks(self, contest_id):
+        """
+        Returns list of hacks in the specified contests.
+
+        Full information about hacks is available only after some time after the contest end.
+        During the contest user can see only own hacks.
+
+        :param contest_id: Id of the contest.
+                           It is not the round number. It can be seen in contest URL. For example: /contest/374/status
+        :type contest_id: int
+        :return: Returns a list of Hack objects.
+        :rtype: list of Hack
+        """
+        assert isinstance(contest_id, int)
+
+        method = 'contest.hacks'
+        url = self.__make_request_url(method, contestId=contest_id)
+        data = self.__get_data(url)
+
+        return list(map(Hack, data))
+
     def contest_list(self, gym=False):
         """
         Returns information about all available contests.

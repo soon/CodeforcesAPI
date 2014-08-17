@@ -32,7 +32,7 @@ class Party(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Party
     """
 
-    def __init__(self, s):
+    def __init__(self, data):
         self._contest_id = None
         self._members = None
         self._participant_type = None
@@ -42,7 +42,7 @@ class Party(BaseJsonObject):
         self._room = None
         self.start_time = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

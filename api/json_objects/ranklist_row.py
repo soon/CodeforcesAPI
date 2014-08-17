@@ -17,7 +17,7 @@ class RanklistRow(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#RanklistRow
     """
 
-    def __init__(self, s):
+    def __init__(self, data):
         self._party = None
         self._rank = None
         self._points = None
@@ -27,7 +27,7 @@ class RanklistRow(BaseJsonObject):
         self._problem_results = None
         self._last_submission_time = None
 
-        super().__init__(s)
+        super().__init__(data)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

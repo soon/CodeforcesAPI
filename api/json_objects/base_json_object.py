@@ -14,14 +14,18 @@ class BaseJsonObject:
     Every Codeforces Json object should extend this class
     """
 
-    def __init__(self, s):
-        assert isinstance(s, (str, dict)) or s is None
+    def __init__(self, data):
+        """
+        :param data: Data in JSON format
+        :type data: str or dict
+        """
+        assert isinstance(data, (str, dict)) or data is None
 
-        if s is not None:
-            if isinstance(s, str):
-                self.load_from_json(s)
+        if data is not None:
+            if isinstance(data, str):
+                self.load_from_json(data)
             else:
-                self.load_from_dict(s)
+                self.load_from_dict(data)
 
     def __eq__(self, other):
         if type(self) == type(other):

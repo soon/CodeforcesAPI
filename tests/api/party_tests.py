@@ -1,5 +1,5 @@
 """
-This module provides classes for testing Contest object
+This module provides classes for testing Pary object
 """
 
 import unittest

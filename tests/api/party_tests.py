@@ -3,7 +3,9 @@ This module provides classes for testing Pary object
 """
 
 import unittest
-from api import Party, Member, ParticipantType
+from api import Party
+from api import Member
+from api import ParticipantType
 
 
 class PartyTests(unittest.TestCase):

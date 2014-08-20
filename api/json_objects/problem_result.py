@@ -8,10 +8,10 @@ from . import BaseJsonObject
 from enum import Enum
 
 
-__all__ = ['ProblemResult', 'ProblemType']
+__all__ = ['ProblemResult', 'ScoringSystemType']
 
 
-class ProblemType(Enum):
+class ScoringSystemType(Enum):
     """
     If type is PRELIMINARY then points can decrease (if, for example, solution will fail during system test).
     Otherwise, party can only increase points for this problem by submitting better solutions.
@@ -105,7 +105,7 @@ class ProblemResult(BaseJsonObject):
     def type(self):
         """
         :return: Problem type or None if not initialized
-        :rtype: ProblemType
+        :rtype: ScoringSystemType
         """
         return self._type
 
@@ -113,10 +113,10 @@ class ProblemResult(BaseJsonObject):
     def type(self, value):
         """
         :param value: Problem type
-        :type value: ProblemType or str
+        :type value: ScoringSystemType or str
         """
-        assert isinstance(value, (ProblemType, str))
-        self._type = ProblemType(value)
+        assert isinstance(value, (ScoringSystemType, str))
+        self._type = ScoringSystemType(value)
 
     @property
     def best_submission_time(self):

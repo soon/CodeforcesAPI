@@ -183,7 +183,6 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(343, self.submission.time_consumed)
         self.assertEqual(34816000, self.submission.memory_consumed)
 
-
     def test_load_only_required_from_json(self):
         """
         Required fields are:

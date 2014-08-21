@@ -11,6 +11,7 @@ from . import Problem
 from . import JudgeProtocol
 
 from enum import Enum
+from utils import lazy_property
 
 
 __all__ = ['Hack', 'HackVerdictType']
@@ -96,9 +97,11 @@ class Hack(BaseJsonObject):
         assert isinstance(value, (int, str))
         self._creation_time = int(value)
 
-    @property
+    @lazy_property
     def hacker(self):
         """
+        Lazy property.
+
         :return: Hacker or None if not initialized
         :rtype: Party
         """
@@ -107,6 +110,8 @@ class Hack(BaseJsonObject):
     @hacker.setter
     def hacker(self, value):
         """
+        Lazy property.
+
         :param value: Hacker
         :type value: Party or str or dict
         """
@@ -117,9 +122,11 @@ class Hack(BaseJsonObject):
 
         self._hacker = value
 
-    @property
+    @lazy_property
     def defender(self):
         """
+        Lazy property.
+
         :return: Defender or None if not initialized
         :rtype: Party
         """
@@ -128,6 +135,8 @@ class Hack(BaseJsonObject):
     @defender.setter
     def defender(self, value):
         """
+        Lazy property.
+
         :param value: Defender
         :type value: Party or str or dict
         """
@@ -163,9 +172,11 @@ class Hack(BaseJsonObject):
 
         self._verdict = value
 
-    @property
+    @lazy_property
     def problem(self):
         """
+        Lazy property.
+
         :return: Hacked problem or None if not initialized
         :rtype: Problem
         """
@@ -174,6 +185,8 @@ class Hack(BaseJsonObject):
     @problem.setter
     def problem(self, value):
         """
+        Lazy property.
+
         :param value: Hacked problem
         :type value: Problem or str or dict
         """
@@ -205,10 +218,11 @@ class Hack(BaseJsonObject):
         assert isinstance(value, str) or value is None
         self._test = value
 
-    @property
+    @lazy_property
     def judge_protocol(self):
         """
         Can be absent.
+        Lazy property.
 
         :return: Judge protocol or None if not initialized or absent
         :rtype: JudgeProtocol
@@ -218,7 +232,8 @@ class Hack(BaseJsonObject):
     @judge_protocol.setter
     def judge_protocol(self, value):
         """
-        Can be absent
+        Can be absent.
+        Lazy property.
 
         :param value: Judge protocol
         :type value: JudgeProtocol or str or dict

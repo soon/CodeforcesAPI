@@ -7,6 +7,7 @@ For further information visit http://codeforces.com/api/help/objects#Submission
 from . import BaseJsonObject, Problem
 from . import Party
 from enum import Enum
+from utils import lazy_property
 
 
 __all__ = ['VerdictType', 'TestsetType', 'Submission']
@@ -170,9 +171,11 @@ class Submission(BaseJsonObject):
         assert isinstance(value, (int, str))
         self._relative_time = int(value)
 
-    @property
+    @lazy_property
     def problem(self):
         """
+        Lazy property.
+
         :return: Problem object or None if not initialized
         :rtype: Problem
         """
@@ -181,6 +184,8 @@ class Submission(BaseJsonObject):
     @problem.setter
     def problem(self, value):
         """
+        Lazy property.
+
         :param value: Problem object
         :type value: Problem or dict or str
         """
@@ -191,9 +196,11 @@ class Submission(BaseJsonObject):
 
         self._problem = value
 
-    @property
+    @lazy_property
     def author(self):
         """
+        Lazy property.
+
         :return: Party object or None if not initialized
         :rtype: Party
         """
@@ -202,6 +209,8 @@ class Submission(BaseJsonObject):
     @author.setter
     def author(self, value):
         """
+        Lazy property.
+
         :param value: Party object
         :type value: Party or dict or str
         """

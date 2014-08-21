@@ -5,6 +5,7 @@ For further information visit http://codeforces.com/api/help/objects#RanklistRow
 """
 
 from . import BaseJsonObject, Party, ProblemResult
+from utils import lazy_property
 
 
 __all__ = ['RanklistRow']
@@ -45,9 +46,11 @@ class RanklistRow(BaseJsonObject):
 
         self.last_submission_time = values.get('lastSubmissionTimeSeconds')
 
-    @property
+    @lazy_property
     def party(self):
         """
+        Lazy property.
+
         :return: Party that took a corresponding place in the contest or None if not initialized
         :rtype: Party
         """
@@ -56,6 +59,8 @@ class RanklistRow(BaseJsonObject):
     @party.setter
     def party(self, value):
         """
+        Lazy property.
+
         :param value: Party that took a corresponding place in the contest.
         :type value: Party or str or dict
         """
@@ -154,9 +159,11 @@ class RanklistRow(BaseJsonObject):
         """
         self._unsuccessful_hack_count = value
 
-    @property
+    @lazy_property
     def problem_results(self):
         """
+        Lazy property.
+
         Party results for each problem.
 
         Order of the problems is the same as in "problems" field of the returned object.
@@ -169,6 +176,8 @@ class RanklistRow(BaseJsonObject):
     @problem_results.setter
     def problem_results(self, value):
         """
+        Lazy property.
+
         Party results for each problem.
 
         Order of the problems is the same as in "problems" field of the returned object.

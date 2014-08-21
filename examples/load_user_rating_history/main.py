@@ -15,7 +15,7 @@ def main(argv):
 
     handle = argv[1]
 
-    rating_changes = api.user_rating(handle)
+    rating_changes = list(api.user_rating(handle))
 
     print('Rating history for {}:'.format(handle))
     for rating in rating_changes:

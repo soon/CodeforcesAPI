@@ -259,14 +259,14 @@ class CodeforcesAPI:
         :param contest_id: Id of the contest.
                            It is not the round number. It can be seen in contest URL. For example: /contest/374/status
         :type contest_id: int
-        :return: Returns a list of Hack objects.
-        :rtype: list of Hack
+        :return: Returns an iterator of Hack objects.
+        :rtype: iterator of Hack
         """
         assert isinstance(contest_id, int)
 
         data = self._data_retriever.get_data('contest.hacks', contestId=contest_id)
 
-        return list(map(Hack, data))
+        return map(Hack, data)
 
     def contest_list(self, gym=False):
         """
@@ -274,14 +274,14 @@ class CodeforcesAPI:
 
         :param gym: If true — than gym contests are returned. Otherwise, regular contests are returned.
         :type gym: bool
-        :return: Returns a list of Contest objects. If this method is called not anonymously,
+        :return: Returns an iterator of Contest objects. If this method is called not anonymously,
                  then all available contests for a calling user will be returned too,
                  including mashups and private gyms.
-        :rtype: list of Contest
+        :rtype: iterator of Contest
         """
         data = self._data_retriever.get_data('contest.list', gym=gym)
 
-        return list(map(Contest, data))
+        return map(Contest, data)
 
     def contest_standings(self, contest_id, from_=1, count=None, handles=None):
         """
@@ -302,18 +302,18 @@ class CodeforcesAPI:
 
         :return: Returns object with three fields: "contest", "problems" and "rows".
                  Field "contest" contains a Contest object.
-                 Field "problems" contains a list of Problem objects.
-                 Field "rows" contains a list of RanklistRow objects.
+                 Field "problems" contains an iterator of Problem objects.
+                 Field "rows" contains an iteator of RanklistRow objects.
         :rtype: {'contest': Contest,
-                 'problems': list of Problem,
-                 'rows': list of RanklistRow}
+                 'problems': iterator of Problem,
+                 'rows': iterator of RanklistRow}
         """
         assert isinstance(contest_id, int), 'contest_id should be of type int, not {}'.format(type(contest_id))
         assert isinstance(from_, int), 'from_ should be of type int, not {}'.format(type(from_))
         assert isinstance(count, int) or count is None, 'count should be of type int, not {}'.format(type(count))
         assert isinstance(handles, list) or handles is None, \
             'handles should be of type list of str, not {}'.format(type(handles))
-        assert len(handles) <= 10000, 'No more than 10000 handles is accepted'
+        assert handles is None or len(handles) <= 10000, 'No more than 10000 handles is accepted'
 
         data = self._data_retriever.get_data('contest.standings',
                                              contestId=contest_id,
@@ -321,9 +321,9 @@ class CodeforcesAPI:
                                              handles=handles,
                                              **{'from': from_})
 
-        return {'contest': list(map(Contest, data['contest'])),
-                'problems': list(map(Problem, data['problems'])),
-                'rows': list(map(RanklistRow, data['rows']))}
+        return {'contest': Contest(data['contest']),
+                'problems': map(Problem, data['problems']),
+                'rows': map(RanklistRow, data['rows'])}
 
     def contest_status(self, contest_id, handle=None, from_=1, count=None):
         """
@@ -344,8 +344,8 @@ class CodeforcesAPI:
         :param count: Number of returned submissions.
         :type count: int
 
-        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
-        :rtype: list of Submission
+        :return: Returns an iterator of Submission objects, sorted in decreasing order of submission id.
+        :rtype: iterator of Submission
         """
         assert isinstance(contest_id, int)
         assert isinstance(handle, str) or handle is None
@@ -358,7 +358,7 @@ class CodeforcesAPI:
                                              count=count,
                                              **{'from': from_})
 
-        return list(map(Submission, data))
+        return map(Submission, data)
 
     def problemset_problems(self, tags=None):
         """
@@ -366,14 +366,14 @@ class CodeforcesAPI:
 
         :param tags: List of tags.
         :type tags: list of str
-        :return: Returns two lists. List of Problem objects and list of ProblemStatistics objects.
+        :return: Returns two iterators. Iterator of Problem objects and iterator of ProblemStatistics objects.
         :rtype: {'problems': list of Problem,
                  'problemStatistics': list of ProblemStatistics}
         """
         data = self._data_retriever.get_data('problemset.problems', tags=tags)
 
-        return {'problems': list(map(Problem, data['problems'])),
-                'problemStatistics': list(map(ProblemStatistics, data['problemStatistics']))}
+        return {'problems': map(Problem, data['problems']),
+                'problemStatistics': map(ProblemStatistics, data['problemStatistics'])}
 
     def problemset_recent_status(self, count):
         """
@@ -382,15 +382,15 @@ class CodeforcesAPI:
         :param count: Number of submissions to return. Can be up to 1000.
         :type count: int
 
-        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
-        :rtype: list of Submission
+        :return: Returns an iterator of Submission objects, sorted in decreasing order of submission id.
+        :rtype: iterator of Submission
         """
         assert isinstance(count, int)
         assert 0 < count <= 1000
 
         data = self._data_retriever.get_data('problemset.recentStatus', count=count)
 
-        return list(map(Submission, data))
+        return map(Submission, data)
 
     def user_info(self, handles):
         """
@@ -398,14 +398,14 @@ class CodeforcesAPI:
 
         :param handles: List of handles. No more than 10000 handles is accepted.
         :type handles: list of str
-        :return: Returns a list of User objects for requested handles.
-        :rtype: list of User
+        :return: Returns an iterator of User objects for requested handles.
+        :rtype: iterator of User
         """
         assert isinstance(handles, list)
 
         data = self._data_retriever.get_data('user.info', handles=handles)
 
-        return list(map(User, data))
+        return map(User, data)
 
     def user_rated_list(self, active_only=False):
         """
@@ -414,14 +414,14 @@ class CodeforcesAPI:
         :param active_only: If true then only users, who participated in rated contest during the last month are
                             returned. Otherwise, all users with at least one rated contest are returned.
         :type active_only: bool
-        :return: Returns a list of User objects, sorted in decreasing order of rating.
-        :rtype: list of User
+        :return: Returns an iterator of User objects, sorted in decreasing order of rating.
+        :rtype: iterator of User
         """
         assert isinstance(active_only, bool)
 
         data = self._data_retriever.get_data('user.ratedList', activeOnly=active_only)
 
-        return list(map(User, data))
+        return map(User, data)
 
     def user_rating(self, handle):
         """
@@ -430,14 +430,14 @@ class CodeforcesAPI:
         :param handle: Codeforces user handle.
         :type handle: str
 
-        :return: Returns a list of RatingChange objects for requested user.
-        :rtype: list of RatingChange
+        :return: Returns an iterator of RatingChange objects for requested user.
+        :rtype: iterator of RatingChange
         """
         assert isinstance(handle, str), 'Handle should have str type, not {}'.format(type(handle))
 
         data = self._data_retriever.get_data('user.rating', handle=handle)
 
-        return list(map(RatingChange, data))
+        return map(RatingChange, data)
 
     def user_status(self, handle, from_=1, count=None):
         """
@@ -449,8 +449,8 @@ class CodeforcesAPI:
         :type from_: int
         :param count: Number of returned submissions.
         :type count: int or None
-        :return: Returns a list of Submission objects, sorted in decreasing order of submission id.
-        :rtype: list of Submission
+        :return: Returns an iterator of Submission objects, sorted in decreasing order of submission id.
+        :rtype: iterator of Submission
         """
         assert isinstance(handle, str)
         assert isinstance(from_, int)
@@ -458,4 +458,4 @@ class CodeforcesAPI:
 
         data = self._data_retriever.get_data('user.status', handle=handle, count=count, **{'from': from_})
 
-        return list(map(Submission, data))
+        return map(Submission, data)

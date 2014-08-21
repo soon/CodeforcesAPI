@@ -41,10 +41,14 @@ class ProblemResult(BaseJsonObject):
         super().load_required_fields_from_dict(values)
 
         self.points = values['points']
-        self.penalty = values['penalty']
         self.rejected_attempt_count = values['rejectedAttemptCount']
         self.type = values['type']
-        self.best_submission_time = values['bestSubmissionTimeSeconds']
+
+    def load_optional_fields_from_dict(self, values):
+        super().load_optional_fields_from_dict(values)
+
+        self.penalty = values.get('penalty')
+        self.best_submission_time = values.get('bestSubmissionTimeSeconds')
 
     @property
     def points(self):
@@ -66,9 +70,11 @@ class ProblemResult(BaseJsonObject):
     @property
     def penalty(self):
         """
+        Can be absent
+
         Penalty (in ICPC meaning) of the party for this problem.
 
-        :return: Penalty or None if not initialized
+        :return: Penalty or None if not initialized or absent
         :rtype: int
         """
         return self._penalty
@@ -76,13 +82,19 @@ class ProblemResult(BaseJsonObject):
     @penalty.setter
     def penalty(self, value):
         """
+        Can be absent
+
         Penalty (in ICPC meaning) of the party for this problem.
 
-        :param value: Penalty
+        :param value: Penalty or None if absent
         :type value: int or str
         """
-        assert isinstance(value, (int, str))
-        self._penalty = int(value)
+        assert isinstance(value, (int, str)) or value is None
+
+        if isinstance(value, str):
+            value = int(value)
+
+        self._penalty = value
 
     @property
     def rejected_attempt_count(self):
@@ -121,10 +133,12 @@ class ProblemResult(BaseJsonObject):
     @property
     def best_submission_time(self):
         """
+        Can be absent
+
         Number of seconds after the start of the contest before the submission, that brought
         maximal amount of points for this problem.
 
-        :return: Best time or None if not initialized
+        :return: Best time or None if not initialized or absent
         :rtype: int
         """
         return self._best_submission_time
@@ -132,11 +146,17 @@ class ProblemResult(BaseJsonObject):
     @best_submission_time.setter
     def best_submission_time(self, value):
         """
+        Can be absent
+
         Number of seconds after the start of the contest before the submission, that brought
         maximal amount of points for this problem.
 
-        :param value: Best time
+        :param value: Best time or None if absent
         :type value: int or str
         """
-        assert isinstance(value, (int, str))
-        self._best_submission_time = int(value)
+        assert isinstance(value, (int, str)) or value is None
+
+        if isinstance(value, str):
+            value = int(value)
+
+        self._best_submission_time = value

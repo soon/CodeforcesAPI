@@ -313,7 +313,7 @@ class CodeforcesAPI:
         assert isinstance(count, int) or count is None, 'count should be of type int, not {}'.format(type(count))
         assert isinstance(handles, list) or handles is None, \
             'handles should be of type list of str, not {}'.format(type(handles))
-        assert len(handles) <= 10000, 'No more than 10000 handles is accepted'
+        assert handles is None or len(handles) <= 10000, 'No more than 10000 handles is accepted'
 
         data = self._data_retriever.get_data('contest.standings',
                                              contestId=contest_id,
@@ -321,7 +321,7 @@ class CodeforcesAPI:
                                              handles=handles,
                                              **{'from': from_})
 
-        return {'contest': list(map(Contest, data['contest'])),
+        return {'contest': Contest(data['contest']),
                 'problems': list(map(Problem, data['problems'])),
                 'rows': list(map(RanklistRow, data['rows']))}
 

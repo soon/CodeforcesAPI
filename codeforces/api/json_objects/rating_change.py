@@ -27,6 +27,9 @@ class RatingChange(BaseJsonObject):
 
         super().__init__(data)
 
+    def __repr__(self):
+        return '<RatingChange: {}, {}->{}>'.format(self.contest_id, self.old_rating, self.new_rating)
+
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)
 

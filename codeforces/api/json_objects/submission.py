@@ -82,6 +82,9 @@ class Submission(BaseJsonObject):
 
         super().__init__(data)
 
+    def __repr__(self):
+        return '<Submission: {}>'.format(self.id)
+
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)
 

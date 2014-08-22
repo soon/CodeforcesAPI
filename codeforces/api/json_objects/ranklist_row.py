@@ -30,6 +30,9 @@ class RanklistRow(BaseJsonObject):
 
         super().__init__(data)
 
+    def __repr__(self):
+        return '<RanklistRow: {}>'.format(self.party)
+
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)
 

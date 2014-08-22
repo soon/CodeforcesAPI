@@ -44,6 +44,9 @@ class Party(BaseJsonObject):
 
         super().__init__(data)
 
+    def __repr__(self):
+        return '<Party: {}>'.format(self.members)
+
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)
 

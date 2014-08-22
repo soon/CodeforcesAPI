@@ -1,7 +1,7 @@
 How to run example scripts
 ==========================
 
-There are two ways to run examples:
+There are two ways to run examples without installing the whole package:
 
 1. You could add path to project to the `PYTHONPATH` environment variable. In Linux OS you could use `realpath` to retrieve path of the project:
    

@@ -11,6 +11,7 @@ import operator
 from urllib import request
 from collections import OrderedDict
 from enum import Enum
+from urllib.error import HTTPError
 
 from api import Problem
 from api import RanklistRow
@@ -73,8 +74,14 @@ class CodeforcesDataRetriever:
         """
         Returns data retrieved from given url
         """
-        with request.urlopen(url) as req:
-            return self.__check_json(req.readall().decode('utf-8'))
+        try:
+            with request.urlopen(url) as req:
+                return self.__check_json(req.readall().decode('utf-8'))
+        except HTTPError as http_e:
+            try:
+                return self.__check_json(http_e.readall().decode('utf-8'))
+            except Exception as e:
+                raise e from http_e
 
     def __generate_url(self, method, **kwargs):
         """

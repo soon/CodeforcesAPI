@@ -13,7 +13,7 @@ setup(
     license='MIT',
     keywords='codeforces api wrapper',
     url='https://github.com/soon/CodeforcesAPI',
-    packages=find_packages(exclude=['tests', 'examples']),
+    packages=find_packages(exclude=['tests', 'tests.*', 'examples']),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',

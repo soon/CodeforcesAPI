@@ -4,14 +4,13 @@ This module contains classes for representing Hack object
 For further information visit http://codeforces.com/api/help/objects#Hack
 """
 
+from enum import Enum
 
 from . import BaseJsonObject
 from . import Party
 from . import Problem
 from . import JudgeProtocol
-
-from enum import Enum
-from utils import lazy_property
+from codeforces.utils import lazy_property
 
 
 __all__ = ['Hack', 'HackVerdictType']

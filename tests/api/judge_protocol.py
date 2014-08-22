@@ -2,7 +2,8 @@
 This module provides classes for testing JudgeProtocol object
 """
 import unittest
-from api import JudgeProtocol
+
+from codeforces.api import JudgeProtocol
 
 
 class JudgeProtocolTests(unittest.TestCase):

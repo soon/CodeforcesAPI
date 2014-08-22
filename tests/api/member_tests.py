@@ -3,7 +3,8 @@ This module provides classes for testing Hack object
 """
 
 import unittest
-from api import Member
+
+from codeforces.api import Member
 
 
 class MemberTests(unittest.TestCase):

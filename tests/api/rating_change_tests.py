@@ -3,7 +3,8 @@ This module provides classes for testing RatingChange object
 """
 
 import unittest
-from api import RatingChange
+
+from codeforces.api import RatingChange
 
 
 class RatingChangeTests(unittest.TestCase):

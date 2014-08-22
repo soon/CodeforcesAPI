@@ -5,7 +5,7 @@ For further information visit http://codeforces.com/api/help/objects#RanklistRow
 """
 
 from . import BaseJsonObject, Party, ProblemResult
-from utils import lazy_property
+from codeforces.utils import lazy_property
 
 
 __all__ = ['RanklistRow']

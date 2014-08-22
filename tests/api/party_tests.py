@@ -3,9 +3,10 @@ This module provides classes for testing Pary object
 """
 
 import unittest
-from api import Party
-from api import Member
-from api import ParticipantType
+
+from codeforces.api import Party
+from codeforces.api import Member
+from codeforces.api import ParticipantType
 
 
 class PartyTests(unittest.TestCase):

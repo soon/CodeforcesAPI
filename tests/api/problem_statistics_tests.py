@@ -3,7 +3,8 @@ This module provides classes for testing ProblemStatistics object
 """
 
 import unittest
-from api import ProblemStatistics
+
+from codeforces.api import ProblemStatistics
 
 
 class ProblemStatisticsTests(unittest.TestCase):

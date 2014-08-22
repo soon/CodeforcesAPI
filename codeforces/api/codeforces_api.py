@@ -7,19 +7,19 @@ import json
 import random
 import time
 import operator
-
 from urllib import request
 from collections import OrderedDict
 from enum import Enum
+from urllib.error import HTTPError
 
-from api import Problem
-from api import RanklistRow
-from api import RatingChange
-from api import Hack
-from api import User
-from api import ProblemStatistics
-from api import Contest
-from api import Submission
+from codeforces.api import Problem
+from codeforces.api import RanklistRow
+from codeforces.api import RatingChange
+from codeforces.api import Hack
+from codeforces.api import User
+from codeforces.api import ProblemStatistics
+from codeforces.api import Contest
+from codeforces.api import Submission
 
 
 __all__ = ['CodeforcesAPI', 'CodeforcesLanguage']
@@ -73,8 +73,14 @@ class CodeforcesDataRetriever:
         """
         Returns data retrieved from given url
         """
-        with request.urlopen(url) as req:
-            return self.__check_json(req.readall().decode('utf-8'))
+        try:
+            with request.urlopen(url) as req:
+                return self.__check_json(req.readall().decode('utf-8'))
+        except HTTPError as http_e:
+            try:
+                return self.__check_json(http_e.readall().decode('utf-8'))
+            except Exception as e:
+                raise e from http_e
 
     def __generate_url(self, method, **kwargs):
         """

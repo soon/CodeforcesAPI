@@ -3,7 +3,8 @@ This module provides classes for testing RanklistRow object
 """
 
 import unittest
-from api import RanklistRow, Party, ProblemResult
+
+from codeforces.api import RanklistRow, Party, ProblemResult
 
 
 class RanklistRowTests(unittest.TestCase):

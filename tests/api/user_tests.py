@@ -3,7 +3,8 @@ This module provides classes for testing User object
 """
 
 import unittest
-from api import User
+
+from codeforces.api import User
 
 
 class UserTests(unittest.TestCase):

@@ -4,11 +4,11 @@ This module provides classes for testing Submission object
 
 import unittest
 
-from api import Submission
-from api import VerdictType
-from api import Problem
-from api import Party
-from api import TestsetType
+from codeforces.api import Submission
+from codeforces.api import VerdictType
+from codeforces.api import Problem
+from codeforces.api import Party
+from codeforces.api import TestsetType
 
 
 class SubmissionTests(unittest.TestCase):

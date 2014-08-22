@@ -4,10 +4,11 @@ This module contains classes for representing Submission object
 For further information visit http://codeforces.com/api/help/objects#Submission
 """
 
+from enum import Enum
+
 from . import BaseJsonObject, Problem
 from . import Party
-from enum import Enum
-from utils import lazy_property
+from codeforces.utils import lazy_property
 
 
 __all__ = ['VerdictType', 'TestsetType', 'Submission']

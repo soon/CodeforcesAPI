@@ -17,7 +17,7 @@ class Member(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Member
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._handle = None
 
         super().__init__(data)

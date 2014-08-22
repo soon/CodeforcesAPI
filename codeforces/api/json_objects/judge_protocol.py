@@ -17,7 +17,7 @@ class JudgeProtocol(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Hack
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._manual = None
         self._protocol = None
         self._verdict = None

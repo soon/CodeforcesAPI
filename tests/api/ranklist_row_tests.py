@@ -10,7 +10,7 @@ from codeforces import RanklistRow, Party, ProblemResult
 class RanklistRowTests(unittest.TestCase):
 
     def setUp(self):
-        self.row = RanklistRow(None)
+        self.row = RanklistRow()
 
     def load_from_dict(self):
         d = {

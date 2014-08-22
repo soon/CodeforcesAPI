@@ -32,7 +32,7 @@ class Party(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Party
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._contest_id = None
         self._members = None
         self._participant_type = None

@@ -34,7 +34,7 @@ class Hack(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Hack
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._id = None
         self._creation_time = None
         self._hacker = None

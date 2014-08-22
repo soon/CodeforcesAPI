@@ -14,7 +14,7 @@ from codeforces import TestsetType
 class SubmissionTests(unittest.TestCase):
 
     def setUp(self):
-        self.submission = Submission(None)
+        self.submission = Submission()
 
     def test_load_from_dict(self):
         d = {

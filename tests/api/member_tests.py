@@ -10,7 +10,7 @@ from codeforces import Member
 class MemberTests(unittest.TestCase):
 
     def setUp(self):
-        self.member = Member(None)
+        self.member = Member()
 
     def test_load_from_dict(self):
         d = {

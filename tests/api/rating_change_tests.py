@@ -10,7 +10,7 @@ from codeforces import RatingChange
 class RatingChangeTests(unittest.TestCase):
 
     def setUp(self):
-        self.rating = RatingChange(None)
+        self.rating = RatingChange()
 
     def test_load_from_dict(self):
         d = {

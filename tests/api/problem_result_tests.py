@@ -11,7 +11,7 @@ from codeforces import ScoringSystemType
 class ProblemResultTests(unittest.TestCase):
 
     def setUp(self):
-        self.result = ProblemResult(None)
+        self.result = ProblemResult()
 
     def test_load_from_dict(self):
         d = {

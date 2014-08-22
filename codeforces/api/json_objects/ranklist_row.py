@@ -18,7 +18,7 @@ class RanklistRow(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#RanklistRow
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._party = None
         self._rank = None
         self._points = None

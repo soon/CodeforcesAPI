@@ -66,7 +66,7 @@ class Submission(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Submission
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._id = None
         self._contest_id = None
         self._creation_time = None

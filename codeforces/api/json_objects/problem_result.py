@@ -28,7 +28,7 @@ class ProblemResult(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#ProblemResults
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._points = None
         self._penalty = None
         self._rejected_attempt_count = None

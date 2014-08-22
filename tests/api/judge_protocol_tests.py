@@ -9,7 +9,7 @@ from codeforces import JudgeProtocol
 class JudgeProtocolTests(unittest.TestCase):
 
     def setUp(self):
-        self.protocol = JudgeProtocol(None)
+        self.protocol = JudgeProtocol()
 
     def test_load_from_dict(self):
         protocol = (b"Solution verdict:\nWRONG_ANSWER\n\nChecker:\nwrong answer 1st words differ - "

@@ -17,7 +17,7 @@ class RatingChange(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#RatingChange
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._contest_id = None
         self._contest_name = None
         self._rank = None

@@ -9,8 +9,8 @@ import plotly.plotly as py
 from plotly.graph_objs import *
 import sys
 
-from codeforces.api import CodeforcesAPI
-from codeforces.api import HackVerdictType
+from codeforces import CodeforcesAPI
+from codeforces import HackVerdictType
 
 from collections import defaultdict
 from collections import Counter

@@ -9,9 +9,9 @@ import plotly.plotly as py
 from plotly.graph_objs import *
 import sys
 
-from codeforces.api import CodeforcesAPI
-from codeforces.api import VerdictType
-from codeforces.api import ParticipantType
+from codeforces import CodeforcesAPI
+from codeforces import VerdictType
+from codeforces import ParticipantType
 
 from collections import Counter
 

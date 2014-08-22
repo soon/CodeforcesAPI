@@ -4,9 +4,9 @@ This module provides classes for testing Contest object
 
 import unittest
 
-from codeforces.api import Contest
-from codeforces.api import ContestType
-from codeforces.api import ContestPhase
+from codeforces import Contest
+from codeforces import ContestType
+from codeforces import ContestPhase
 
 
 class ContestTest(unittest.TestCase):

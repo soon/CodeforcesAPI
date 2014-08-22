@@ -12,14 +12,14 @@ from collections import OrderedDict
 from enum import Enum
 from urllib.error import HTTPError
 
-from codeforces.api import Problem
-from codeforces.api import RanklistRow
-from codeforces.api import RatingChange
-from codeforces.api import Hack
-from codeforces.api import User
-from codeforces.api import ProblemStatistics
-from codeforces.api import Contest
-from codeforces.api import Submission
+from .json_objects import Problem
+from .json_objects import RanklistRow
+from .json_objects import RatingChange
+from .json_objects import Hack
+from .json_objects import User
+from .json_objects import ProblemStatistics
+from .json_objects import Contest
+from .json_objects import Submission
 
 
 __all__ = ['CodeforcesAPI', 'CodeforcesLanguage']

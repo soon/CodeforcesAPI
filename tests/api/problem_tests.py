@@ -4,8 +4,8 @@ This module provides classes for testing Problem object
 
 import unittest
 
-from codeforces.api import Problem
-from codeforces.api import ProblemType
+from codeforces import Problem
+from codeforces import ProblemType
 
 
 class ProblemTests(unittest.TestCase):

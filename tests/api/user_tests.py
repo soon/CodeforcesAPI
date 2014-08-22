@@ -4,7 +4,7 @@ This module provides classes for testing User object
 
 import unittest
 
-from codeforces.api import User
+from codeforces import User
 
 
 class UserTests(unittest.TestCase):

@@ -12,7 +12,7 @@ from codeforces import ParticipantType
 class PartyTests(unittest.TestCase):
 
     def setUp(self):
-        self.party = Party(None)
+        self.party = Party()
 
     def test_load_from_dict(self):
         d = {

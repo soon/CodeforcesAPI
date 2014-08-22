@@ -28,7 +28,7 @@ class ProblemResult(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#ProblemResults
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._points = None
         self._penalty = None
         self._rejected_attempt_count = None
@@ -36,6 +36,9 @@ class ProblemResult(BaseJsonObject):
         self._best_submission_time = None
 
         super().__init__(data)
+
+    def __repr__(self):
+        return '<ProblemResult: {}>'.format(self.points)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

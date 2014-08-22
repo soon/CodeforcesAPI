@@ -24,6 +24,9 @@ class ProblemStatistics(BaseJsonObject):
 
         super().__init__(data)
 
+    def __repr__(self):
+        return '<ProblemStatistics: {}/{}: {}>'.format(self.contest_id, self.index, self.solved_count)
+
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)
 

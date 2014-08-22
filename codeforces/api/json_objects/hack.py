@@ -34,7 +34,7 @@ class Hack(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Hack
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._id = None
         self._creation_time = None
         self._hacker = None
@@ -45,6 +45,9 @@ class Hack(BaseJsonObject):
         self._judge_protocol = None
 
         super().__init__(data)
+
+    def __repr__(self):
+        return '<Hack: {}>'.format(self.id)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

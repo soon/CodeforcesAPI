@@ -17,12 +17,15 @@ class JudgeProtocol(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Hack
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._manual = None
         self._protocol = None
         self._verdict = None
 
         super().__init__(data)
+
+    def __repr__(self):
+        return '<JudgeProtocol: {}>'.format(self.verdict)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

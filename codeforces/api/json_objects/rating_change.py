@@ -17,7 +17,7 @@ class RatingChange(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#RatingChange
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._contest_id = None
         self._contest_name = None
         self._rank = None
@@ -26,6 +26,9 @@ class RatingChange(BaseJsonObject):
         self._new_rating = None
 
         super().__init__(data)
+
+    def __repr__(self):
+        return '<RatingChange: {}, {}->{}>'.format(self.contest_id, self.old_rating, self.new_rating)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

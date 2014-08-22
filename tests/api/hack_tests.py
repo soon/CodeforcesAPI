@@ -15,7 +15,7 @@ from codeforces import HackVerdictType
 class HackTests(unittest.TestCase):
 
     def setUp(self):
-        self.hack = Hack(None)
+        self.hack = Hack()
 
     def test_load_from_dict(self):
         d = {

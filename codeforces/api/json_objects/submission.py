@@ -66,7 +66,7 @@ class Submission(BaseJsonObject):
     For further information visit http://codeforces.com/api/help/objects#Submission
     """
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self._id = None
         self._contest_id = None
         self._creation_time = None
@@ -81,6 +81,9 @@ class Submission(BaseJsonObject):
         self._memory_consumed = None
 
         super().__init__(data)
+
+    def __repr__(self):
+        return '<Submission: {}>'.format(self.id)
 
     def load_required_fields_from_dict(self, values):
         super().load_required_fields_from_dict(values)

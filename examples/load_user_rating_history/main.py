@@ -7,7 +7,7 @@ In this example we are loading users rating history by it's handle
 import os
 import sys
 
-from api import CodeforcesAPI
+from codeforces.api import CodeforcesAPI
 
 
 def main(argv):

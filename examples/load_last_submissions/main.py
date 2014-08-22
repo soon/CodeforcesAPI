@@ -7,7 +7,7 @@ In this example we are loading last N submissions
 import os
 import sys
 
-from api import CodeforcesAPI
+from codeforces.api import CodeforcesAPI
 
 
 def main(argv):

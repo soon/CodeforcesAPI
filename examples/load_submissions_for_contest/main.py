@@ -7,7 +7,7 @@ In this example we are loading submissions for contest by it's id
 import os
 import sys
 
-from api import CodeforcesAPI
+from codeforces.api import CodeforcesAPI
 
 
 def main(argv):

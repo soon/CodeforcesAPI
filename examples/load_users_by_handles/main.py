@@ -4,7 +4,7 @@
 In this example we are loading users by their handles
 """
 
-from api import CodeforcesAPI
+from codeforces.api import CodeforcesAPI
 
 
 def main():

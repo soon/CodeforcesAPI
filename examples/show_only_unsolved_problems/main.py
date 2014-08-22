@@ -9,10 +9,10 @@ from itertools import groupby
 import os
 import sys
 
-from api import CodeforcesAPI
-from api import VerdictType
-from api import Problem
-from api import Contest
+from codeforces.api import CodeforcesAPI
+from codeforces.api import VerdictType
+from codeforces.api import Problem
+from codeforces.api import Contest
 
 
 def first_or_default(lst, f):

@@ -3,7 +3,7 @@ This module provides classes for testing JudgeProtocol object
 """
 import unittest
 
-from codeforces.api import JudgeProtocol
+from codeforces import JudgeProtocol
 
 
 class JudgeProtocolTests(unittest.TestCase):

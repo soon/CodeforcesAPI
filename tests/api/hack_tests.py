@@ -5,11 +5,11 @@ This module provides classes for testing Hack object
 import unittest
 import json
 
-from codeforces.api import Hack
-from codeforces.api import Party
-from codeforces.api import Problem
-from codeforces.api import JudgeProtocol
-from codeforces.api import HackVerdictType
+from codeforces import Hack
+from codeforces import Party
+from codeforces import Problem
+from codeforces import JudgeProtocol
+from codeforces import HackVerdictType
 
 
 class HackTests(unittest.TestCase):

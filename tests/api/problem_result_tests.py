@@ -4,8 +4,8 @@ This module provides classes for testing ProblemResult object
 
 import unittest
 
-from codeforces.api import ProblemResult
-from codeforces.api import ScoringSystemType
+from codeforces import ProblemResult
+from codeforces import ScoringSystemType
 
 
 class ProblemResultTests(unittest.TestCase):

@@ -289,7 +289,7 @@ class CodeforcesAPI:
 
         return map(Contest, data)
 
-    def contest_standings(self, contest_id, from_=1, count=None, handles=None):
+    def contest_standings(self, contest_id, from_=1, count=None, handles=None, show_unofficial=False):
         """
         Returns the description of the contest and the requested part of the standings.
 
@@ -306,6 +306,10 @@ class CodeforcesAPI:
         :param handles: List of handles. No more than 10000 handles is accepted.
         :type handles: list of str
 
+        :param show_unofficial: If true than all participants (virtual, out of competition) are shown.
+                                Otherwise, only official contestants are shown.
+        :type show_unofficial: bool
+
         :return: Returns object with three fields: "contest", "problems" and "rows".
                  Field "contest" contains a Contest object.
                  Field "problems" contains an iterator of Problem objects.
@@ -320,11 +324,14 @@ class CodeforcesAPI:
         assert isinstance(handles, list) or handles is None, \
             'handles should be of type list of str, not {}'.format(type(handles))
         assert handles is None or len(handles) <= 10000, 'No more than 10000 handles is accepted'
+        assert isinstance(show_unofficial, bool), \
+            'show_unofficial should be of type bool, not {}'.format(type(show_unofficial))
 
         data = self._data_retriever.get_data('contest.standings',
                                              contestId=contest_id,
                                              count=count,
                                              handles=handles,
+                                             showUnofficial=show_unofficial,
                                              **{'from': from_})
 
         return {'contest': Contest(data['contest']),

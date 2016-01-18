@@ -4,22 +4,22 @@ This file provides api for retrieving data from codeforces.com
 
 import hashlib
 import json
+import operator
 import random
 import time
-import operator
-from urllib import request
 from collections import OrderedDict
 from enum import Enum
+from urllib import request
 from urllib.error import HTTPError
 
+from .json_objects import Contest
+from .json_objects import Hack
 from .json_objects import Problem
+from .json_objects import ProblemStatistics
 from .json_objects import RanklistRow
 from .json_objects import RatingChange
-from .json_objects import Hack
-from .json_objects import User
-from .json_objects import ProblemStatistics
-from .json_objects import Contest
 from .json_objects import Submission
+from .json_objects import User
 
 
 __all__ = ['CodeforcesAPI', 'CodeforcesLanguage']
@@ -75,10 +75,10 @@ class CodeforcesDataRetriever:
         """
         try:
             with request.urlopen(url) as req:
-                return self.__check_json(req.readall().decode('utf-8'))
+                return self.__check_json(req.read().decode('utf-8'))
         except HTTPError as http_e:
             try:
-                return self.__check_json(http_e.readall().decode('utf-8'))
+                return self.__check_json(http_e.read().decode('utf-8'))
             except Exception as e:
                 raise e from http_e
 

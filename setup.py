@@ -18,7 +18,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='codeforces_api',
-    version='0.2a',
+    version='0.3a',
     description='Wrapper library for Codeforces API',
     license='MIT',
     keywords='codeforces api wrapper',

@@ -9,8 +9,8 @@ import random
 import time
 from collections import OrderedDict
 from enum import Enum
-from urllib import request
 from urllib.error import HTTPError
+from urllib.request import urlopen
 
 from .json_objects import Contest
 from .json_objects import Hack
@@ -74,7 +74,7 @@ class CodeforcesDataRetriever:
         Returns data retrieved from given url
         """
         try:
-            with request.urlopen(url) as req:
+            with urlopen(url) as req:
                 return self.__check_json(req.read().decode('utf-8'))
         except HTTPError as http_e:
             try:
@@ -288,6 +288,18 @@ class CodeforcesAPI:
         data = self._data_retriever.get_data('contest.list', gym=gym)
 
         return map(Contest, data)
+
+    def contest_rating_changes(self, contest_id):
+        """
+        Returns rating changes after the contest.
+
+        :param contest_id: Id of the contest. It is not the round number. It can be seen in contest URL.
+        :return: Returns an iterator of RatingChange objects.
+        :rtype: iterator of RatingChange
+        """
+        data = self._data_retriever.get_data('contest.ratingChanges', contestId=contest_id)
+
+        return map(RatingChange, data)
 
     def contest_standings(self, contest_id, from_=1, count=None, handles=None, show_unofficial=False):
         """

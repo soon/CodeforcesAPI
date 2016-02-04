@@ -1,0 +1,86 @@
+{
+  "status": "OK",
+  "result": [
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "vepifanov",
+      "rank": 1,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1600
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "Orfest",
+      "rank": 2,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1597
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "NALP",
+      "rank": 3,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1593
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "forest",
+      "rank": 4,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1590
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "rem",
+      "rank": 5,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1580
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "izbyshev",
+      "rank": 6,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1587
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "Sergey.Bankevich",
+      "rank": 7,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1583
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "gusakov",
+      "rank": 8,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1573
+    },
+    {
+      "contestId": 1,
+      "contestName": "Codeforces Beta Round #1",
+      "handle": "LinesPrower",
+      "rank": 9,
+      "ratingUpdateTimeSeconds": 1266588000,
+      "oldRating": 1500,
+      "newRating": 1576
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-Codeforces API wrapper library
+Codeforces API wrapper library [![Build Status](https://travis-ci.org/soon/CodeforcesAPI.svg?branch=master)](https://travis-ci.org/soon/CodeforcesAPI)
 ==============================
 
 This library provides access to Codeforces API through Python 3

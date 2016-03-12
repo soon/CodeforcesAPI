@@ -9,8 +9,14 @@ from codeforces.api.codeforces_api import CodeforcesAPI
 
 
 class CodeforcesAPITests(unittest.TestCase):
+    def get_current_directory(self):
+        return os.path.dirname(os.path.realpath(__file__))
+
+    def get_fixture_path(self, fixture_name):
+        return os.path.join(self.get_current_directory(), 'fixtures', fixture_name)
+
     def load_fixture(self, fixture_name):
-        with open(os.path.join('fixtures', fixture_name), 'r') as fixture:
+        with open(self.get_fixture_path(fixture_name), 'r') as fixture:
             return fixture.read().encode('utf-8')
 
     def patch_urlopen_read_method(self, urlopen, fixture_name):

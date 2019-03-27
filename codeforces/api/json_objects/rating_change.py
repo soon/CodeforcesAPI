@@ -20,6 +20,7 @@ class RatingChange(BaseJsonObject):
     def __init__(self, data=None):
         self._contest_id = None
         self._contest_name = None
+        self._handle = None
         self._rank = None
         self._rating_update_time = None
         self._old_rating = None
@@ -35,6 +36,7 @@ class RatingChange(BaseJsonObject):
 
         self.contest_id = values['contestId']
         self.contest_name = values['contestName']
+        self.handle = values['handle']
         self.rank = values['rank']
         self.rating_update_time = values['ratingUpdateTimeSeconds']
         self.old_rating = values['oldRating']
@@ -77,6 +79,27 @@ class RatingChange(BaseJsonObject):
         """
         assert isinstance(value, str)
         self._contest_name = value
+
+    @property
+    def handle(self):
+        """
+        Codeforces user handle.
+
+        :return: Handle or None if not initialized
+        :rtype: str
+        """
+        return self._handle
+
+    @handle.setter
+    def handle(self, value):
+        """
+        Codeforces user handle.
+
+        :param value: Handle
+        :type value: str
+        """
+        assert isinstance(value, str)
+        self._handle = value
 
     @property
     def rank(self):
@@ -135,12 +158,12 @@ class RatingChange(BaseJsonObject):
     @old_rating.setter
     def old_rating(self, value):
         """
-        :param value: User rating before the contest. 
+        :param value: User rating before the contest.
         :type value: int or str
         """
         assert isinstance(value, (int, str))
         self._old_rating = int(value)
-        
+
     @property
     def new_rating(self):
         """
@@ -148,7 +171,7 @@ class RatingChange(BaseJsonObject):
         :rtype: int
         """
         return self._new_rating
-    
+
     @new_rating.setter
     def new_rating(self, value):
         """

@@ -16,6 +16,7 @@ class RatingChangeTests(unittest.TestCase):
         d = {
             "contestId": 1,
             "contestName": "Codeforces Beta Round #1",
+            "handle": "tourist",
             "rank": 30,
             "ratingUpdateTimeSeconds": 1266588000,
             "oldRating": 0,
@@ -26,6 +27,7 @@ class RatingChangeTests(unittest.TestCase):
 
         self.assertEqual(1, self.rating.contest_id)
         self.assertEqual("Codeforces Beta Round #1", self.rating.contest_name)
+        self.assertEqual("tourist", self.rating.handle)
         self.assertEqual(30, self.rating.rank)
         self.assertEqual(1266588000, self.rating.rating_update_time)
         self.assertEqual(0, self.rating.old_rating)
@@ -35,6 +37,7 @@ class RatingChangeTests(unittest.TestCase):
         json = '''{
             "contestId": 1,
             "contestName": "Codeforces Beta Round #1",
+            "handle": "tourist",
             "rank": 30,
             "ratingUpdateTimeSeconds": 1266588000,
             "oldRating": 0,
@@ -45,6 +48,7 @@ class RatingChangeTests(unittest.TestCase):
 
         self.assertEqual(1, self.rating.contest_id)
         self.assertEqual("Codeforces Beta Round #1", self.rating.contest_name)
+        self.assertEqual("tourist", self.rating.handle)
         self.assertEqual(30, self.rating.rank)
         self.assertEqual(1266588000, self.rating.rating_update_time)
         self.assertEqual(0, self.rating.old_rating)

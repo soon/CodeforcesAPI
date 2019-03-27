@@ -57,20 +57,12 @@ class UserTests(unittest.TestCase):
 
             handle
             contribution
-            rank
-            rating
-            maxRank
-            maxRating
             lastOnlineTimeSeconds
             registrationTimeSeconds
         """
         d = {
             "handle": "DmitriyH",
             "contribution": 144,
-            "rank": "candidate master",
-            "rating": 1799,
-            "maxRank": "master",
-            "maxRating": 1947,
             "lastOnlineTimeSeconds": 1408612436,
             "registrationTimeSeconds": 1268570311
         }
@@ -79,10 +71,6 @@ class UserTests(unittest.TestCase):
 
         self.assertEqual("DmitriyH", self.user.handle)
         self.assertEqual(144, self.user.contribution)
-        self.assertEqual("candidate master", self.user.rank)
-        self.assertEqual(1799, self.user.rating)
-        self.assertEqual("master", self.user.max_rank)
-        self.assertEqual(1947, self.user.max_rating)
         self.assertEqual(1408612436, self.user.last_online_time)
         self.assertEqual(1268570311, self.user.registration_time)
 
@@ -94,6 +82,10 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.country)
         self.assertIsNone(self.user.city)
         self.assertIsNone(self.user.organization)
+        self.assertIsNone(self.user.rank)
+        self.assertIsNone(self.user.max_rank)
+        self.assertEqual(0, self.user.rating)
+        self.assertEqual(0, self.user.max_rating)
 
     def test_load_from_json(self):
         json = '''{
@@ -134,26 +126,18 @@ class UserTests(unittest.TestCase):
         self.assertEqual(1408612436, self.user.last_online_time)
         self.assertEqual(1268570311, self.user.registration_time)
 
-    def load_only_required_from_json(self):
+    def test_load_only_required_from_json(self):
         """
         Required fields are:
 
             handle
             contribution
-            rank
-            rating
-            maxRank
-            maxRating
             lastOnlineTimeSeconds
             registrationTimeSeconds
         """
         json = '''{
             "handle": "DmitriyH",
             "contribution": 144,
-            "rank": "candidate master",
-            "rating": 1799,
-            "maxRank": "master",
-            "maxRating": 1947,
             "lastOnlineTimeSeconds": 1408612436,
             "registrationTimeSeconds": 1268570311
         }'''
@@ -162,10 +146,6 @@ class UserTests(unittest.TestCase):
 
         self.assertEqual("DmitriyH", self.user.handle)
         self.assertEqual(144, self.user.contribution)
-        self.assertEqual("candidate master", self.user.rank)
-        self.assertEqual(1799, self.user.rating)
-        self.assertEqual("master", self.user.max_rank)
-        self.assertEqual(1947, self.user.max_rating)
         self.assertEqual(1408612436, self.user.last_online_time)
         self.assertEqual(1268570311, self.user.registration_time)
 
@@ -177,6 +157,11 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.country)
         self.assertIsNone(self.user.city)
         self.assertIsNone(self.user.organization)
+        self.assertIsNone(self.user.rank)
+        self.assertIsNone(self.user.max_rank)
+        self.assertEqual(0, self.user.rating)
+        self.assertEqual(0, self.user.max_rating)
+
 
 if __name__ == '__main__':
     unittest.main()

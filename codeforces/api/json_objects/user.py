@@ -15,6 +15,12 @@ class User(BaseJsonObject):
     Represents a Codeforces user.
 
     For further information visit http://codeforces.com/api/help/objects#User
+
+    Fields that should always be available are:
+        handle
+        contribution
+        lastOnlineTimeSeconds
+        registrationTimeSeconds
     """
 
     def __init__(self, data=None):
@@ -45,15 +51,16 @@ class User(BaseJsonObject):
 
         self.handle = values['handle']
         self.contribution = values['contribution']
-        self.rank = values['rank']
-        self.rating = values['rating']
-        self.max_rank = values['maxRank']
-        self.max_rating = values['maxRating']
         self.last_online_time = values['lastOnlineTimeSeconds']
         self.registration_time = values['registrationTimeSeconds']
 
     def load_optional_fields_from_dict(self, values):
         super().load_optional_fields_from_dict(values)
+
+        self.rank = values.get('rank')
+        self.max_rank = values.get('maxRank')
+        self.rating = values.get('rating')
+        self.max_rating = values.get('maxRating')
 
         self.email = values.get('email')
         self.vk_id = values.get('vkId')
@@ -276,7 +283,7 @@ class User(BaseJsonObject):
         Localized.
 
         :return: Rank or None if not initialized
-        :rtype: str
+        :rtype: str or NoneType
         """
         return self._rank
 
@@ -286,16 +293,16 @@ class User(BaseJsonObject):
         Localized.
 
         :param value: Rank
-        :type value: str
+        :type value: str or NoneType
         """
-        assert isinstance(value, str)
+        assert isinstance(value, str) or value is None
         self._rank = value
 
     @property
     def rating(self):
         """
         :return: Rating or None if not initialized
-        :rtype: int
+        :rtype: int or NoneType
         """
         return self._rating
 
@@ -303,10 +310,13 @@ class User(BaseJsonObject):
     def rating(self, value):
         """
         :param value: Rating
-        :type value: int or str
+        :type value: int, str or NoneType
         """
-        assert isinstance(value, (int, str))
-        self._rating = int(value)
+        assert isinstance(value, (int, str)) or value is None
+        if value is None:
+            self._rating = 0
+        else:
+            self._rating = int(value)
 
     @property
     def max_rank(self):
@@ -314,7 +324,7 @@ class User(BaseJsonObject):
         Localized.
 
         :return: Max rank or None if not initialized
-        :rtype: str
+        :rtype: str or NoneType
         """
         return self._max_rank
 
@@ -324,16 +334,16 @@ class User(BaseJsonObject):
         Localized.
 
         :param value: Max rank
-        :type value: str
+        :type value: str or NoneType
         """
-        assert isinstance(value, str)
+        assert isinstance(value, str) or value is None
         self._max_rank = value
 
     @property
     def max_rating(self):
         """
         :return: Max rating or None if not initialized
-        :rtype: int
+        :rtype: int or NoneType
         """
         return self._max_rating
 
@@ -341,10 +351,13 @@ class User(BaseJsonObject):
     def max_rating(self, value):
         """
         :param value: Max rating
-        :type value: int or str
+        :type value: int, str or NoneType
         """
-        assert isinstance(value, (int, str))
-        self._max_rating = int(value)
+        assert isinstance(value, (int, str)) or value is None
+        if value is None:
+            self._max_rating = 0
+        else:
+            self._max_rating = int(value)
 
     @property
     def last_online_time(self):

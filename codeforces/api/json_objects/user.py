@@ -40,7 +40,9 @@ class User(BaseJsonObject):
         self._max_rating = None
         self._last_online_time = None
         self._registration_time = None
-
+        self._friend_of_count = None
+        self._avatar = None
+        self._title_photo = None
         super().__init__(data)
 
     def __repr__(self):
@@ -70,6 +72,9 @@ class User(BaseJsonObject):
         self.country = values.get('country')
         self.city = values.get('city')
         self.organization = values.get('organization')
+        self.friend_of_count = values.get('friendOfCount')
+        self.avatar = values.get('avatar')
+        self.title_photo = values.get('titlePhoto')
 
     @property
     def handle(self):
@@ -400,3 +405,67 @@ class User(BaseJsonObject):
         """
         assert isinstance(value, (int, str))
         self._registration_time = int(value)
+
+    @property
+    def friend_of_count(self):
+        """
+        Integer. Amount of users who have this user in friends.
+
+        :return: Amount of users who have this user in friends, or None if not initialized
+        :rtype: int
+        """
+        return self._friend_of_count
+    
+    @friend_of_count.setter
+    def friend_of_count(self, value):
+        """
+        Integer. Amount of users who have this user in friends.
+
+        :param value: Amount of users who have this user in friends
+        :type value: int
+        """
+        assert isinstance(value, int) or value is None
+        self._friend_of_count = value
+
+    @property
+    def title_photo(self):
+        """
+        String. User's avatar URL.
+        
+        :return User's avatar URL, or None if not initialized
+        :rtype: str
+        """
+        return self._title_photo
+    
+    @title_photo.setter
+    def title_photo(self, value):
+        """
+        String. User's avatar URL.
+
+        :param value: User's avatar URL.
+        :type value: str
+        """
+        assert isinstance(value, str) or value is None
+        self._title_photo = value
+
+    @property
+    def avatar(self):
+        """
+        String. User's title photo URL.
+
+        :return String. User's title photo URL, or None if not initialized.
+        :rtype: str
+        """
+        return self._avatar
+
+    @avatar.setter
+    def avatar(self, value):
+        """
+        String. User's title photo URL.
+
+        :param value: User's title photo URL.
+        :type value: str
+        """
+        assert isinstance(value, str) or value is None
+        self._avatar = value
+    

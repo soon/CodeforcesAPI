@@ -1,6 +1,17 @@
 language: python
+
 python:
-  - "3.4"
-  - "3.5"
+- '3.4'
+- '3.5'
 
 script: python setup.py test
+
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: hYEtFZaka1baCy29+nNIsJCKs7D28dI24GRUjqk9uE3pz6MFPONqoN/whlKIHIGPYen00wWuz4KTX1+tL07P9sIWozK4NUfevU/Y7S24lTVF+PGihYKQWqUU0wAhMEEQY5j7WLlcYsvn/CZsN4UFk9tKAUy3pizC19hdlQOxNVtbSK0ud1KvrsdRO0Xc0LZxVKxFc3jt8Nv+zmHMudOTi6DSvJ5PyFZnyr//9fgvm9IEOzIRCOFYDxdwJTlCQPsqKKKB8RPJJv6bQW/G4wYtyas9z9yxEILvgpSPt4GP4PqZ54c4rEE11TMv4iDB39M4n3u7a97l5SVl/Y6pzNh6LNJ2nHi9/Y1ItBX3FkS+3LyMJAwGPHTrS8wBXjKOnze1DIlq55z6XTklTPrGVJBOZ33g10+NM3Nwc/jOk6a3EInZCwuIKWNK8qNroafn5+QIdlSObnib6OH07jVWzb9/Qikm3V4Y4Ea0Jh2eY3q0d20TwIVSlIlPMRiCwKScQtCcLxj6SoFnLLu89UIpIbBNyZUeIdYMwpL4XpWHRUu4oGM2I4A7avNMcPEugLDwHRfaKYymBXpIRql3h615xF8Fa2lKHV47+9mGPbNzHgEYbUVwif3Q05bXcwbqcfQ+oROQjQpN27oqJfzQNyo6rrHzqDVgVxaMgdZ9GcvRRdfHXoE=
+  on:
+    tags: true
+  skip_existing: true
+

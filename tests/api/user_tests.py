@@ -93,7 +93,6 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.friend_of_count)
         self.assertIsNone(self.user.title_photo)
         self.assertIsNone(self.user.avatar)
-        self.assertEqual(0, self.user.rating)
 
         self.assertEqual(0, self.user.rating)
         self.assertEqual(0, self.user.max_rating)
@@ -179,6 +178,7 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.friend_of_count)
         self.assertIsNone(self.user.title_photo)
         self.assertIsNone(self.user.avatar)
+
         self.assertEqual(0, self.user.rating)
         self.assertEqual(0, self.user.max_rating)
 

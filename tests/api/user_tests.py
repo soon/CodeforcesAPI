@@ -29,7 +29,10 @@ class UserTests(unittest.TestCase):
             "maxRank": "master",
             "maxRating": 1947,
             "lastOnlineTimeSeconds": 1408612436,
-            "registrationTimeSeconds": 1268570311
+            "registrationTimeSeconds": 1268570311,
+            "friendOfCount": 85,
+            "titlePhoto":"//userpic.codeforces.com/1592/title/27e43714e4bea090.jpg",
+            "avatar":"//userpic.codeforces.com/1592/avatar/7cef566902732053.jpg"
         }
 
         self.user.load_from_dict(d)
@@ -50,6 +53,9 @@ class UserTests(unittest.TestCase):
         self.assertEqual(1947, self.user.max_rating)
         self.assertEqual(1408612436, self.user.last_online_time)
         self.assertEqual(1268570311, self.user.registration_time)
+        self.assertEqual(85, self.user.friend_of_count)
+        self.assertEqual("//userpic.codeforces.com/1592/title/27e43714e4bea090.jpg", self.user.title_photo)
+        self.assertEqual("//userpic.codeforces.com/1592/avatar/7cef566902732053.jpg", self.user.avatar)
 
     def test_load_only_required_from_dict(self):
         """
@@ -84,6 +90,10 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.organization)
         self.assertIsNone(self.user.rank)
         self.assertIsNone(self.user.max_rank)
+        self.assertIsNone(self.user.friend_of_count)
+        self.assertIsNone(self.user.title_photo)
+        self.assertIsNone(self.user.avatar)
+
         self.assertEqual(0, self.user.rating)
         self.assertEqual(0, self.user.max_rating)
 
@@ -104,7 +114,10 @@ class UserTests(unittest.TestCase):
             "maxRank": "master",
             "maxRating": 1947,
             "lastOnlineTimeSeconds": 1408612436,
-            "registrationTimeSeconds": 1268570311
+            "registrationTimeSeconds": 1268570311,
+            "friendOfCount": 85,
+            "titlePhoto":"//userpic.codeforces.com/1592/title/27e43714e4bea090.jpg",
+            "avatar":"//userpic.codeforces.com/1592/avatar/7cef566902732053.jpg"
         }'''
 
         self.user.load_from_json(json)
@@ -125,6 +138,9 @@ class UserTests(unittest.TestCase):
         self.assertEqual(1947, self.user.max_rating)
         self.assertEqual(1408612436, self.user.last_online_time)
         self.assertEqual(1268570311, self.user.registration_time)
+        self.assertEqual(85, self.user.friend_of_count)
+        self.assertEqual("//userpic.codeforces.com/1592/title/27e43714e4bea090.jpg", self.user.title_photo)
+        self.assertEqual("//userpic.codeforces.com/1592/avatar/7cef566902732053.jpg", self.user.avatar)
 
     def test_load_only_required_from_json(self):
         """
@@ -159,6 +175,10 @@ class UserTests(unittest.TestCase):
         self.assertIsNone(self.user.organization)
         self.assertIsNone(self.user.rank)
         self.assertIsNone(self.user.max_rank)
+        self.assertIsNone(self.user.friend_of_count)
+        self.assertIsNone(self.user.title_photo)
+        self.assertIsNone(self.user.avatar)
+
         self.assertEqual(0, self.user.rating)
         self.assertEqual(0, self.user.max_rating)
 
